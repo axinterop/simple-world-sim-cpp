@@ -4,15 +4,17 @@
 Simulation::Simulation() {
     R = new Renderer();
     const WINDOW *t = R->getWin(WIN::S);
-    m_simArea.x = getbegx(t) + 1;
-    m_simArea.y = getbegy(t) + 1;
-    m_simArea.w = getmaxx(t) - 1;
-    m_simArea.h = getmaxy(t) - 1;
-    x = m_simArea.x; // TODO: TEMP
-    y = m_simArea.y; // TODO: TEMP
+    Rect w_area;
+    w_area.x = getbegx(t) + 1;
+    w_area.y = getbegy(t) + 1;
+    w_area.w = getmaxx(t) - 1;
+    w_area.h = getmaxy(t) - 1;
+
+    W = new World(R, w_area);
 }
 
 Simulation::~Simulation() {
+    delete W;
     delete R;
 }
 
@@ -32,13 +34,16 @@ void Simulation::updateInput() {
 }
 
 void Simulation::updateLogic() {
-
+    W->makeTurn();
 }
 
 void Simulation::renderSim() {
     R->cleanAll();
 
-    // Win boxes
+    // Draw world
+    W->drawWorld();
+
+    // Box windows
     R->boxWin(WIN::S);
     R->boxWin(WIN::I);
     R->boxWin(WIN::L);

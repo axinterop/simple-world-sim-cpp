@@ -2,7 +2,7 @@
 #define PR1_SIMULATION_H
 
 #include "Renderer.h"
-#include <chrono>
+#include "World.h"
 
 class Simulation {
 public:
@@ -10,13 +10,13 @@ public:
     ~Simulation();
     void runSimulation();
     Renderer *R;
+    World *W;
 private:
     void updateInput();
     void updateLogic();
     void renderSim();
 
     bool m_endSim { false };
-    Rect m_simArea;
 };
 
 
