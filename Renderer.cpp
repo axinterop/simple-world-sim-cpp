@@ -20,12 +20,13 @@ void Renderer::Draw(const std::string &t, const Point &pos, WIN w) {
 }
 
 void Renderer::NewWins() {
-    Rect s = {0, 0, COLS, LINES - 10}; // TODO: Has to be resizable
+    float ratio = 0.3;
+    Rect s = {0, 0, (int) (COLS * (1 - ratio)), LINES}; // TODO: Has to be resizable
     Rect i = {
-            s.x,
-            (s.y + s.h),
-            COLS,
-            10
+            (s.x + s.w),
+            s.y,
+            (int) (COLS * ratio),
+            LINES
     };
     Rect r[] = {s, i};
 
