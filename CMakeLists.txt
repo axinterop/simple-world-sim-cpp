@@ -10,4 +10,11 @@ add_executable(pr1
         Simulation.h
         Renderer.h
         Renderer.cpp
-        main.cpp)
+        main.cpp
+        Organism.h
+        util.h
+        Organism.cpp
+        Animal.h
+        Animal.cpp
+        World.h
+        World.cpp)

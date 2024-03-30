@@ -70,6 +70,27 @@ build CMakeFiles/pr1.dir/main.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dix
   OBJECT_DIR = CMakeFiles/pr1.dir
   OBJECT_FILE_DIR = CMakeFiles/pr1.dir
 
+build CMakeFiles/pr1.dir/Organism.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/Organism.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/Organism.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir
+
+build CMakeFiles/pr1.dir/Animal.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/Animal.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/Animal.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir
+
+build CMakeFiles/pr1.dir/World.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/World.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/World.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target pr1
@@ -78,7 +99,7 @@ build CMakeFiles/pr1.dir/main.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dix
 #############################################
 # Link the executable pr1
 
-build pr1: CXX_EXECUTABLE_LINKER__pr1_Debug CMakeFiles/pr1.dir/Simulation.cpp.o CMakeFiles/pr1.dir/Renderer.cpp.o CMakeFiles/pr1.dir/main.cpp.o
+build pr1: CXX_EXECUTABLE_LINKER__pr1_Debug CMakeFiles/pr1.dir/Simulation.cpp.o CMakeFiles/pr1.dir/Renderer.cpp.o CMakeFiles/pr1.dir/main.cpp.o CMakeFiles/pr1.dir/Organism.cpp.o CMakeFiles/pr1.dir/Animal.cpp.o CMakeFiles/pr1.dir/World.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/pr1.dir
   POST_BUILD = :

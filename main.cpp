@@ -2,6 +2,6 @@
 
 int main() {
     Simulation s = Simulation();
-    s.RunSimulation();
+    s.runSimulation();
     return 0;
 }

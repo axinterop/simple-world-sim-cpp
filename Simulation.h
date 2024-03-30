@@ -8,18 +8,15 @@ class Simulation {
 public:
     Simulation();
     ~Simulation();
-    void RunSimulation();
+    void runSimulation();
     Renderer *R;
-    float x; // TODO: TEMP
-    float y; // TODO: TEMP
 private:
-    void UpdateInput();
-    void UpdateLogic();
-    void RenderSim();
+    void updateInput();
+    void updateLogic();
+    void renderSim();
 
     bool m_endSim { false };
     Rect m_simArea;
-    int frameDurCap { 60 }; // TODO: Must be changeable
 };
 
 

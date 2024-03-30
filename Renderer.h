@@ -5,17 +5,7 @@
 #include <vector>
 #include "ncurses.h"
 
-struct Point {
-    int x;
-    int y;
-};
-
-struct Rect {
-    int x;
-    int y;
-    int w;
-    int h;
-};
+#include "util.h"
 
 typedef enum {
     S, // Main
@@ -28,27 +18,27 @@ public:
     Renderer();
     ~Renderer();
 
-    void Draw(const std::string& t, const Point &pos);
-    void Draw(const std::string& t, const Point &pos, chtype a);
-    void Draw(const std::string& t, const Point &pos, WIN w);
-    void Draw(const std::string& t, const Point &pos, chtype a, WIN w);
+    void draw(const std::string& t, const Point &pos);
+    void draw(const std::string& t, const Point &pos, chtype a);
+    void draw(const std::string& t, const Point &pos, WIN w);
+    void draw(const std::string& t, const Point &pos, chtype a, WIN w);
 
-    void Refresh();
-    void Refresh(WIN w);
-    void RefreshAll();
-    void CleanAll();
-    void Box(WIN w);
-    WINDOW const *GetWin(WIN w) const;
+    void refresh();
+    void refresh(WIN w);
+    void refreshAll();
+    void cleanAll();
+    void boxWin(WIN w);
+    WINDOW const *getWin(WIN w) const;
 private:
     WINDOW *WINS[3];
     const int w_n = 3;
-    void NewWins();
-    void NewWin(WIN w, Rect &r);
-    void DelWins();
-    void DelWin(WIN w);
+    void newWins();
+    void newWin(WIN w, Rect &r);
+    void delWins();
+    void delWin(WIN w);
 
 };
 
-void InitializeRenderer();
+void initializeRenderer();
 
 #endif
