@@ -10,7 +10,8 @@ public:
     ~Simulation();
     void RunSimulation();
     Renderer *R;
-    float x = 1.0f;
+    float x; // TODO: TEMP
+    float y; // TODO: TEMP
 private:
     void UpdateInput();
     void UpdateLogic();
