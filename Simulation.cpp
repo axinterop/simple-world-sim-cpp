@@ -65,6 +65,7 @@ void Simulation::RenderSim() {
     R->CleanAll();
     R->Box(WIN::S);
     R->Box(WIN::I);
+    R->Box(WIN::L);
     R->Draw("Hi", {(int) x, (int) y});
     R->RefreshAll();
 }

@@ -21,14 +21,10 @@ void Renderer::Draw(const std::string &t, const Point &pos, WIN w) {
 
 void Renderer::NewWins() {
     float ratio = 0.3;
-    Rect s = {0, 0, (int) (COLS * (1 - ratio)), LINES}; // TODO: Has to be resizable
-    Rect i = {
-            (s.x + s.w),
-            s.y,
-            (int) (COLS * ratio),
-            LINES
-    };
-    Rect r[] = {s, i};
+    Rect s = {0, 0, (int) (COLS * (1 - ratio)), LINES - 5}; // TODO: Has to be resizable
+    Rect i = {s.x, (s.y + s.h), (int) (COLS * (1 - ratio)), 5}; // TODO: Depends on sim win
+    Rect l = {(s.x + s.w), s.y, (int) (COLS * ratio), LINES}; // TODO: Depends on sim win
+    Rect r[] = {s, i, l};
 
     for (int j = 0; j < w_n; j++) {
         WIN w = static_cast<WIN>(j);

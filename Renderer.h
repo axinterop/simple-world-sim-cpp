@@ -20,7 +20,7 @@ struct Rect {
 typedef enum {
     S, // Main
     I, // Info
-//    L // Log
+    L // Log
 } WIN;
 
 class Renderer {
@@ -38,8 +38,8 @@ public:
     void Box(WIN w);
     WINDOW const *GetWin(WIN w) const;
 private:
-    WINDOW *WINS[2];
-    const int w_n = 2;
+    WINDOW *WINS[3];
+    const int w_n = 3;
     void NewWins();
     void NewWin(WIN w, Rect &r);
     void DelWins();
