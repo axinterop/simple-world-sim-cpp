@@ -14,9 +14,18 @@ Renderer::~Renderer() {
 
 void Renderer::Draw(const std::string &t, const Point &pos) { this->Draw(t, pos, WIN::S); }
 
+void Renderer::Draw(const std::string &t, const Point &pos, chtype a) {
+    this->Draw(t, pos, a, WIN::S);
+}
+
 void Renderer::Draw(const std::string &t, const Point &pos, WIN w) {
     mvwprintw(WINS[w], pos.y, pos.x, "%s", t.c_str());
-    wrefresh(WINS[w]);
+}
+
+void Renderer::Draw(const std::string &t, const Point &pos, chtype a, WIN w) {
+    wattron(WINS[w], a);
+    this->Draw(t, pos, w);
+    wattroff(WINS[w], a);
 }
 
 void Renderer::NewWins() {

@@ -29,7 +29,9 @@ public:
     ~Renderer();
 
     void Draw(const std::string& t, const Point &pos);
+    void Draw(const std::string& t, const Point &pos, chtype a);
     void Draw(const std::string& t, const Point &pos, WIN w);
+    void Draw(const std::string& t, const Point &pos, chtype a, WIN w);
 
     void Refresh();
     void Refresh(WIN w);

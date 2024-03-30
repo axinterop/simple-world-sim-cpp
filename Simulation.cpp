@@ -69,7 +69,7 @@ void Simulation::RenderSim() {
     R->Box(WIN::I);
     R->Box(WIN::L);
     // Test string
-    R->Draw("Hi", {(int) x, (int) y});
+    R->Draw("  ", {(int) x, (int) y}, A_REVERSE);
     // Info string
     std::string t = std::to_string(frameDurCap);
     R->Draw("F1 - slow down, F2 - speed up, F3 - reset (60 ms)", {1, 1}, WIN::I);
