@@ -63,9 +63,18 @@ void Simulation::UpdateLogic() {
 
 void Simulation::RenderSim() {
     R->CleanAll();
+
+    // Boxes
     R->Box(WIN::S);
     R->Box(WIN::I);
     R->Box(WIN::L);
+    // Test string
     R->Draw("Hi", {(int) x, (int) y});
+    // Info string
+    std::string t = std::to_string(frameDurCap);
+    R->Draw("F1 - slow down, F2 - speed up, F3 - reset (60 ms)", {1, 1}, WIN::I);
+    R->Draw("'E' to Exit", {1,2}, WIN::I);
+    R->Draw("Time between frames: " + t + " ms", {60, 1}, WIN::I);
+
     R->RefreshAll();
 }
