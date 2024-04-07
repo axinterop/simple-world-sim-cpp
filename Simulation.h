@@ -4,17 +4,18 @@
 #include "Renderer.h"
 #include "World.h"
 
+
 class Simulation {
 public:
     Simulation();
     ~Simulation();
-    void runSimulation();
+    void RunSimulation();
     Renderer *R;
     World *W;
 private:
-    void updateInput();
-    void updateLogic();
-    void renderSim();
+    void UpdateInput();
+    void UpdateLogic();
+    void RenderSim();
 
     bool m_endSim { false };
 };

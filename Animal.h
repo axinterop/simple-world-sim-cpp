@@ -3,11 +3,10 @@
 
 #include "Organism.h"
 
-class Animal : Organism {
-    void action() override;
-    void collision() override;
-    void draw() override;
-
+class Animal : public Organism {
+public:
+    void Action() override;
+    void Collision() override;
 };
 
 

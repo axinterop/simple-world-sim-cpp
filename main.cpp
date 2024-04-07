@@ -1,7 +1,8 @@
 #include "Simulation.h"
 
 int main() {
+
     Simulation s = Simulation();
-    s.runSimulation();
+    s.RunSimulation();
     return 0;
 }

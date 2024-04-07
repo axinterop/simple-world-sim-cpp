@@ -17,4 +17,6 @@ add_executable(pr1
         Animal.h
         Animal.cpp
         World.h
-        World.cpp)
+        World.cpp
+        WorldListener.h
+        WorldListener.cpp)

@@ -3,26 +3,29 @@
 
 #include <vector>
 
-#include "Renderer.h"
+#include "WorldListener.h"
 #include "Organism.h"
+#include "Animal.h"
 #include "util.h"
+
 
 using namespace std;
 
 class World {
 private:
-    const Renderer *R; // TODO: If something doesn't work - remove const
+    WorldListener WListener {};
+    vector<Organism*> organisms;
+
     Rect worldArea;
-    vector<Organism> organisms;
+    void InitOrganisms();
 
-    void initOrganisms();
+    friend class Renderer;
 public:
-    World(Renderer *, Rect &);
+    World(Rect &);
     ~World();
-    void makeTurn();
-    void drawWorld();
-
+    void MakeTurn();
 };
 
+#include "Renderer.h"
 
 #endif //PR1_WORLD_H

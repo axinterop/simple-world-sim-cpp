@@ -1,4 +1,3 @@
-
 #include "Simulation.h"
 
 Simulation::Simulation() {
@@ -10,7 +9,7 @@ Simulation::Simulation() {
     w_area.w = getmaxx(t) - 1;
     w_area.h = getmaxy(t) - 1;
 
-    W = new World(R, w_area);
+    W = new World(w_area);
 }
 
 Simulation::~Simulation() {
@@ -18,39 +17,45 @@ Simulation::~Simulation() {
     delete R;
 }
 
-void Simulation::runSimulation() {
+void Simulation::RunSimulation() {
+    // First input is blocked by ncurses, leaving user with blank screen
+    mvprintw(0, 0, "Press Any key to start simulation or 'E' to exit...");
+
     while (!m_endSim) {
-        updateInput();
-        updateLogic();
-        renderSim();
+        UpdateInput();
+        UpdateLogic();
+        RenderSim();
     }
 }
 
-void Simulation::updateInput() {
+void Simulation::UpdateInput() {
     int ch;
     ch = getch();
     if (ch == 'e')
         m_endSim = true;
 }
 
-void Simulation::updateLogic() {
-    W->makeTurn();
+void Simulation::UpdateLogic() {
+    W->MakeTurn();
 }
 
-void Simulation::renderSim() {
-    R->cleanAll();
+void Simulation::RenderSim() {
+    R->CleanAll();
 
-    // Draw world
-    W->drawWorld();
+    // Draw worlds
+    R->DrawWorld(W);
 
     // Box windows
-    R->boxWin(WIN::S);
-    R->boxWin(WIN::I);
-    R->boxWin(WIN::L);
+    R->BoxWin(WIN::S);
+    R->BoxWin(WIN::I);
+    R->BoxWin(WIN::L);
 
     // Info string
-    R->draw("'Any key' for Next Turn", {1, 1}, WIN::I);
-    R->draw("'E' to Exit", {1, 2}, WIN::I);
+    R->Draw("Any key for Next Turn", {1, 1}, WIN::I);
+    R->Draw("'E' to Exit", {1, 2}, WIN::I);
 
-    R->refreshAll();
+    // Log string
+    R->ShowListenersOutput(W);
+
+    R->RefreshAll();
 }

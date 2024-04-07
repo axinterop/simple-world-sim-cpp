@@ -2,7 +2,7 @@
 #include "Renderer.h"
 
 Renderer::Renderer() {
-    initializeRenderer();
+    InitializeRenderer();
     newWins();
 }
 
@@ -12,19 +12,19 @@ Renderer::~Renderer() {
 }
 
 
-void Renderer::draw(const std::string &t, const Point &pos) { this->draw(t, pos, WIN::S); }
+void Renderer::Draw(const std::string &t, const Point &pos) { this->Draw(t, pos, WIN::S); }
 
-void Renderer::draw(const std::string &t, const Point &pos, chtype a) {
-    this->draw(t, pos, a, WIN::S);
+void Renderer::Draw(const std::string &t, const Point &pos, chtype a) {
+    this->Draw(t, pos, a, WIN::S);
 }
 
-void Renderer::draw(const std::string &t, const Point &pos, WIN w) {
+void Renderer::Draw(const std::string &t, const Point &pos, WIN w) {
     mvwprintw(WINS[w], pos.y, pos.x, "%s", t.c_str());
 }
 
-void Renderer::draw(const std::string &t, const Point &pos, chtype a, WIN w) {
+void Renderer::Draw(const std::string &t, const Point &pos, chtype a, WIN w) {
     wattron(WINS[w], a);
-    this->draw(t, pos, w);
+    this->Draw(t, pos, w);
     wattroff(WINS[w], a);
 }
 
@@ -56,18 +56,18 @@ void Renderer::delWin(WIN w) {
     delwin(WINS[w]);
 }
 
-void Renderer::refresh() {
-    refresh(WIN::S);
+void Renderer::Refresh() {
+    Refresh(WIN::S);
 }
 
-void Renderer::refresh(WIN w) {
+void Renderer::Refresh(WIN w) {
     wrefresh(WINS[w]);
 }
 
-void Renderer::refreshAll() {
+void Renderer::RefreshAll() {
     for (int i = 0; i < w_n; i++) {
         WIN w = static_cast<WIN>(i);
-        refresh(w);
+        Refresh(w);
     }
 }
 
@@ -75,19 +75,31 @@ WINDOW const *Renderer::getWin(WIN w) const {
     return WINS[w];
 }
 
-void Renderer::cleanAll() {
+void Renderer::CleanAll() {
     for (int i = 0; i < w_n; i++) {
         WIN w = static_cast<WIN>(i);
         wclear(WINS[w]);
     }
 }
 
-void Renderer::boxWin(WIN w) {
+void Renderer::BoxWin(WIN w) {
     box(WINS[w], 0, 0);
 }
 
+void Renderer::DrawWorld(World *W) {
+}
 
-void initializeRenderer() {
+void Renderer::ShowListenersOutput(World *W) {
+    int lx = 1;
+    int ly = 0;
+    for (auto & event : W->WListener.events) {
+        Draw(event.details, {lx, ly + 1}, WIN::L);
+        ly+=1;
+    }
+}
+
+
+void InitializeRenderer() {
     initscr();            /* Start curses mode 		*/
 //    timeout(0);             /* Non-breaking input mode */
     raw();                /* Line buffering disabled	*/
