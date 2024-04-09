@@ -3,10 +3,14 @@
 
 #include "Organism.h"
 
+
 class Animal : public Organism {
+private:
+    void MoveInRandomDirection(World &W);
 public:
-    void Action() override;
-    void Collision() override;
+    using Organism::Organism;
+    void Action(World &W) override;
+    void Collision(World &W) override;
 };
 
 

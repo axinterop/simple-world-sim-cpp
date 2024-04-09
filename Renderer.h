@@ -16,6 +16,19 @@ typedef enum {
     L // Log
 } WIN;
 
+typedef enum {
+    WOLF = 1,
+    SHEEP,
+    TURTLE,
+    ANTILOPE,
+    GRASS,
+    SONCHUS,
+    GUARANA,
+    BELLADONNA,
+    H_SOSNOWSKYI
+} ORGANISM_COLOR;
+
+
 class Renderer {
 private:
     WINDOW *WINS[3];
@@ -24,6 +37,9 @@ private:
     void newWin(WIN w, Rect &r);
     void delWins();
     void delWin(WIN w);
+
+    int lx = 1; // Log's x
+    int ly = 0; // Log's y
 public:
     Renderer();
     ~Renderer();
@@ -39,8 +55,10 @@ public:
     void Refresh();
     void Refresh(WIN w);
     void RefreshAll();
+    void Clean(WIN w);
     void CleanAll();
     void BoxWin(WIN w);
+    void EmptyWin(WIN w);
     WINDOW const *getWin(WIN w) const;
 };
 

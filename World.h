@@ -16,14 +16,18 @@ private:
     WorldListener WListener {};
     vector<Organism*> organisms;
 
-    Rect worldArea;
     void InitOrganisms();
+
+    void CreateAnimal(Animal *an);
+    void CreateAnimal(int s, int i, int a, Point p);
 
     friend class Renderer;
 public:
-    World(Rect &);
+    World(const Rect &worldArea);
     ~World();
     void MakeTurn();
+    const Rect worldArea;
+    bool WithinWorldArea(Point pos);
 };
 
 #include "Renderer.h"

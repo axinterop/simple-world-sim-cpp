@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Renderer.h"
 
 Renderer::Renderer() {
@@ -75,6 +74,10 @@ WINDOW const *Renderer::getWin(WIN w) const {
     return WINS[w];
 }
 
+void Renderer::Clean(WIN w) {
+    wclear(WINS[w]);
+}
+
 void Renderer::CleanAll() {
     for (int i = 0; i < w_n; i++) {
         WIN w = static_cast<WIN>(i);
@@ -86,14 +89,24 @@ void Renderer::BoxWin(WIN w) {
     box(WINS[w], 0, 0);
 }
 
+void Renderer::EmptyWin(WIN w) {
+    Clean(w);
+    BoxWin(w);
+}
+
 void Renderer::DrawWorld(World *W) {
+    for (auto organism: W->organisms) {
+        Draw(to_string(organism->getId()), organism->getPos(), COLOR_PAIR(ORGANISM_COLOR::WOLF));
+    }
 }
 
 void Renderer::ShowListenersOutput(World *W) {
-    int lx = 1;
-    int ly = 0;
-    for (auto & event : W->WListener.events) {
-        Draw(event.details, {lx, ly + 1}, WIN::L);
+    for (; !W->WListener.events.empty();  W->WListener.events.pop()) {
+        if (ly == getmaxy(WINS[WIN::L]) - 2) {
+            EmptyWin(WIN::L);
+            ly = 0;
+        }
+        Draw(W->WListener.events.front().details, {lx, ly + 1},WIN::L);
         ly+=1;
     }
 }
@@ -106,4 +119,19 @@ void InitializeRenderer() {
     keypad(stdscr, TRUE);        /* We get F1, F2 etc..		*/
     noecho();            /* Don't echo() while we do getch */
     curs_set(0);        /* Sets the cursor state is set to invisible */
+    if(has_colors() == FALSE)
+        printf("[WARNING]: Terminal does not support colors\n");
+    else
+        start_color();
+
+    init_pair(ORGANISM_COLOR::WOLF, COLOR_BLACK, COLOR_RED);
+    init_pair(ORGANISM_COLOR::SHEEP, COLOR_BLACK, COLOR_WHITE);
+    init_pair(ORGANISM_COLOR::TURTLE, COLOR_CYAN, COLOR_GREEN);
+    init_pair(ORGANISM_COLOR::ANTILOPE, COLOR_RED, COLOR_YELLOW);
+
+    init_pair(ORGANISM_COLOR::GRASS, COLOR_GREEN, COLOR_BLACK);
+    init_pair(ORGANISM_COLOR::SONCHUS, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(ORGANISM_COLOR::GUARANA, COLOR_CYAN, COLOR_BLACK);
+    init_pair(ORGANISM_COLOR::BELLADONNA, COLOR_BLUE, COLOR_BLACK);
+    init_pair(ORGANISM_COLOR::H_SOSNOWSKYI, COLOR_MAGENTA, COLOR_BLACK);
 }

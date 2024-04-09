@@ -3,6 +3,8 @@
 
 #include "util.h"
 
+class World;
+
 class Organism {
 protected:
     int id;
@@ -16,13 +18,13 @@ public:
             id(-1), strength(-1), initiative(-1), age(-1), pos({-1, -1}) {};
 
     Organism(int s, int i, int a, Point p) :
-            id(free_id++), strength(s), initiative(i), age(a), pos(p) {};
+            id(free_id++), strength(s), initiative(i), age(a), pos(p) { };
 
     ~Organism() = default;
 
-    virtual void Action() = 0;
+    virtual void Action(World &W) = 0;
 
-    virtual void Collision() = 0;
+    virtual void Collision(World &W) = 0;
 
     int getId() { return id; };
 
@@ -36,6 +38,5 @@ public:
 
     Point getPos() { return pos; };
 };
-
 
 #endif //PR1_ORGANISM_H

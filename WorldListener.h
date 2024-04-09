@@ -2,7 +2,7 @@
 #define PR1_WORLDLISTENER_H
 
 #include <string>
-#include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -15,7 +15,7 @@ struct WorldEvent {
 
 class WorldListener {
 private:
-    vector<WorldEvent> events;
+    queue<WorldEvent> events;
 
     friend class Renderer;
 public:

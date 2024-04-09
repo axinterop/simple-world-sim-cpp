@@ -1,4 +1,5 @@
 #include "Simulation.h"
+#include <ncurses.h>
 
 Simulation::Simulation() {
     R = new Renderer();
@@ -6,8 +7,8 @@ Simulation::Simulation() {
     Rect w_area;
     w_area.x = getbegx(t) + 1;
     w_area.y = getbegy(t) + 1;
-    w_area.w = getmaxx(t) - 1;
-    w_area.h = getmaxy(t) - 1;
+    w_area.w = getmaxx(t) - 2; // Exclude the left and right borders
+    w_area.h = getmaxy(t) - 2; // Exclude the top and bottom borders
 
     W = new World(w_area);
 }
@@ -35,20 +36,15 @@ void Simulation::UpdateInput() {
         m_endSim = true;
 }
 
-void Simulation::UpdateLogic() {
-    W->MakeTurn();
-}
+void Simulation::UpdateLogic() { W->MakeTurn(); }
 
 void Simulation::RenderSim() {
-    R->CleanAll();
+    R->EmptyWin(WIN::S);
+    R->EmptyWin(WIN::I);
+    R->BoxWin(WIN::L);
 
     // Draw worlds
     R->DrawWorld(W);
-
-    // Box windows
-    R->BoxWin(WIN::S);
-    R->BoxWin(WIN::I);
-    R->BoxWin(WIN::L);
 
     // Info string
     R->Draw("Any key for Next Turn", {1, 1}, WIN::I);
