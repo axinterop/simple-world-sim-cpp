@@ -2,6 +2,7 @@
 #define PR1_WORLD_H
 
 #include <vector>
+#include <algorithm>
 
 #include "WorldListener.h"
 #include "Organism.h"
@@ -20,6 +21,8 @@ private:
     int turnsNum {};
 
     void InitOrganisms();
+
+    void OrganismsSortAndCleanUp();
 
     friend class Renderer;
 public:
