@@ -7,7 +7,16 @@ void Animal::Action(World &W) {
 }
 
 void Animal::Collision(World &W) {
-
+    for (auto other_o: *W.getOrganisms()) {
+        if (this == other_o || other_o->isDead())
+            continue;
+        if (this->getPos() == other_o->getPos()) {
+            if (auto as_animal = dynamic_cast<Animal*>(other_o)) {
+                // TODO: Give a birth
+                RevertPos();
+            }
+        }
+    }
 }
 
 void Animal::MoveInRandomDirection(World &W) {
@@ -17,8 +26,10 @@ void Animal::MoveInRandomDirection(World &W) {
     int dy[8] = {0, 0, -1, 1, -1, 1, -1, 1};
     while (!W.WithinWorldArea(potentialPos)) {
         potentialPos = pos;
-        potentialPos.x += dx[rand() % 8];
-        potentialPos.y += dy[rand() % 8];
+        int s = rand() % 8;
+        potentialPos.x += dx[s];
+        potentialPos.y += dy[s];
     }
+    prevPos = pos;
     pos = potentialPos;
 }

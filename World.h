@@ -13,21 +13,29 @@ using namespace std;
 
 class World {
 private:
+    const Rect worldArea;
     WorldListener WListener {};
     vector<Organism*> organisms;
 
-    void InitOrganisms();
+    int turnsNum {};
 
-    void CreateAnimal(Animal *an);
-    void CreateAnimal(int s, int i, int a, Point p);
+    void InitOrganisms();
 
     friend class Renderer;
 public:
     World(const Rect &worldArea);
     ~World();
+
     void MakeTurn();
-    const Rect worldArea;
-    bool WithinWorldArea(Point pos);
+
+    void CreateAnimal(Animal *an);
+    void CreateAnimal(int s, int i,  Point p);
+
+    bool WithinWorldArea(Point pos) const;
+    int getTurnsNum() { return turnsNum; };
+
+    const vector<Organism*> *getOrganisms() { return &organisms; };
+    int getOrganismsNum() { return organisms.size(); };
 };
 
 #include "Renderer.h"

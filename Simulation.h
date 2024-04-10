@@ -12,6 +12,7 @@ public:
     void RunSimulation();
     Renderer *R;
     World *W;
+    bool first_run { true };
 private:
     void UpdateInput();
     void UpdateLogic();

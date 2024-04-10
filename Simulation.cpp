@@ -24,6 +24,12 @@ void Simulation::RunSimulation() {
 
     while (!m_endSim) {
         UpdateInput();
+        // Allow user to see the interface and the world before the first turn
+        if (first_run) {
+            RenderSim();
+            first_run = false;
+            continue;
+        }
         UpdateLogic();
         RenderSim();
     }
@@ -47,8 +53,11 @@ void Simulation::RenderSim() {
     R->DrawWorld(W);
 
     // Info string
-    R->Draw("Any key for Next Turn", {1, 1}, WIN::I);
-    R->Draw("'E' to Exit", {1, 2}, WIN::I);
+    R->Draw("Turns passed: " + to_string(W->getTurnsNum()), {1, 1}, WIN::I);
+    R->Draw("Organisms alive: " + to_string(W->getOrganismsNum()), {1, 2}, WIN::I);
+
+    R->Draw("Any key for Next Turn", {1, 4}, WIN::I);
+    R->Draw("'E' to Exit", {1, 5}, WIN::I);
 
     // Log string
     R->ShowListenersOutput(W);

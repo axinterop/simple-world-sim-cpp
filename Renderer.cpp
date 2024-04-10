@@ -96,18 +96,27 @@ void Renderer::EmptyWin(WIN w) {
 
 void Renderer::DrawWorld(World *W) {
     for (auto organism: W->organisms) {
+        if (organism->isDead())
+            continue;
         Draw(to_string(organism->getId()), organism->getPos(), COLOR_PAIR(ORGANISM_COLOR::WOLF));
     }
 }
 
 void Renderer::ShowListenersOutput(World *W) {
+    // TODO: Fix so the text moves up instead of cleaning and going from beginning
+    if (ly == getmaxy(WINS[WIN::L]) - 2) {
+        EmptyWin(WIN::L);
+        ly = 0;
+    }
+    Draw("Turn " + to_string(W->getTurnsNum()) + ":", {lx, ly + 1}, WIN::L);
+    ly++;
     for (; !W->WListener.events.empty();  W->WListener.events.pop()) {
         if (ly == getmaxy(WINS[WIN::L]) - 2) {
             EmptyWin(WIN::L);
             ly = 0;
         }
         Draw(W->WListener.events.front().details, {lx, ly + 1},WIN::L);
-        ly+=1;
+        ly++;
     }
 }
 

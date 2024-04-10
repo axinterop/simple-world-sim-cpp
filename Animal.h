@@ -3,7 +3,6 @@
 
 #include "Organism.h"
 
-
 class Animal : public Organism {
 private:
     void MoveInRandomDirection(World &W);
