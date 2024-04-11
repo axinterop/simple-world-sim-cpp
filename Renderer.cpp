@@ -95,10 +95,13 @@ void Renderer::EmptyWin(WIN w) {
 }
 
 void Renderer::DrawWorld(World *W) {
-    for (auto organism: W->organisms) {
-        if (organism->isDead())
+    for (auto o: W->organisms) {
+        if (o->isDead())
             continue;
-        Draw(to_string(organism->getId()), organism->getPos(), COLOR_PAIR(ORGANISM_COLOR::WOLF));
+        if (o->getType() == HUMAN)
+            Draw("H", o->getPos(), A_BOLD | A_BLINK | A_UNDERLINE);
+        else
+            Draw(to_string(o->getId()), o->getPos(), COLOR_PAIR(o->getType()));
     }
 }
 
@@ -133,14 +136,15 @@ void InitializeRenderer() {
     else
         start_color();
 
-    init_pair(ORGANISM_COLOR::WOLF, COLOR_BLACK, COLOR_RED);
-    init_pair(ORGANISM_COLOR::SHEEP, COLOR_BLACK, COLOR_WHITE);
-    init_pair(ORGANISM_COLOR::TURTLE, COLOR_CYAN, COLOR_GREEN);
-    init_pair(ORGANISM_COLOR::ANTILOPE, COLOR_RED, COLOR_YELLOW);
+    init_pair(ORGANISM_E::WOLF, COLOR_BLACK, COLOR_RED);
+    init_pair(ORGANISM_E::SHEEP, COLOR_BLACK, COLOR_WHITE);
+    init_pair(ORGANISM_E::FOX, COLOR_WHITE, COLOR_YELLOW);
+    init_pair(ORGANISM_E::TURTLE, COLOR_CYAN, COLOR_GREEN);
+    init_pair(ORGANISM_E::ANTILOPE, COLOR_RED, COLOR_YELLOW);
 
-    init_pair(ORGANISM_COLOR::GRASS, COLOR_GREEN, COLOR_BLACK);
-    init_pair(ORGANISM_COLOR::SONCHUS, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(ORGANISM_COLOR::GUARANA, COLOR_CYAN, COLOR_BLACK);
-    init_pair(ORGANISM_COLOR::BELLADONNA, COLOR_BLUE, COLOR_BLACK);
-    init_pair(ORGANISM_COLOR::H_SOSNOWSKYI, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(ORGANISM_E::GRASS, COLOR_GREEN, COLOR_BLACK);
+    init_pair(ORGANISM_E::SONCHUS, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(ORGANISM_E::GUARANA, COLOR_CYAN, COLOR_BLACK);
+    init_pair(ORGANISM_E::BELLADONNA, COLOR_BLUE, COLOR_BLACK);
+    init_pair(ORGANISM_E::H_SOSNOWSKYI, COLOR_MAGENTA, COLOR_BLACK);
 }

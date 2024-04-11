@@ -98,6 +98,48 @@ build CMakeFiles/pr1.dir/WorldListener.cpp.o: CXX_COMPILER__pr1_unscanned_Debug 
   OBJECT_DIR = CMakeFiles/pr1.dir
   OBJECT_FILE_DIR = CMakeFiles/pr1.dir
 
+build CMakeFiles/pr1.dir/animals/Wolf.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/animals/Wolf.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/animals/Wolf.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir/animals
+
+build CMakeFiles/pr1.dir/animals/Sheep.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/animals/Sheep.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/animals/Sheep.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir/animals
+
+build CMakeFiles/pr1.dir/animals/Fox.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/animals/Fox.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/animals/Fox.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir/animals
+
+build CMakeFiles/pr1.dir/animals/Turtle.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/animals/Turtle.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/animals/Turtle.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir/animals
+
+build CMakeFiles/pr1.dir/animals/Antilope.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/animals/Antilope.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/animals/Antilope.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir/animals
+
+build CMakeFiles/pr1.dir/animals/Human.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/animals/Human.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/animals/Human.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir/animals
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target pr1
@@ -106,7 +148,7 @@ build CMakeFiles/pr1.dir/WorldListener.cpp.o: CXX_COMPILER__pr1_unscanned_Debug 
 #############################################
 # Link the executable pr1
 
-build pr1: CXX_EXECUTABLE_LINKER__pr1_Debug CMakeFiles/pr1.dir/Simulation.cpp.o CMakeFiles/pr1.dir/Renderer.cpp.o CMakeFiles/pr1.dir/main.cpp.o CMakeFiles/pr1.dir/Organism.cpp.o CMakeFiles/pr1.dir/Animal.cpp.o CMakeFiles/pr1.dir/World.cpp.o CMakeFiles/pr1.dir/WorldListener.cpp.o
+build pr1: CXX_EXECUTABLE_LINKER__pr1_Debug CMakeFiles/pr1.dir/Simulation.cpp.o CMakeFiles/pr1.dir/Renderer.cpp.o CMakeFiles/pr1.dir/main.cpp.o CMakeFiles/pr1.dir/Organism.cpp.o CMakeFiles/pr1.dir/Animal.cpp.o CMakeFiles/pr1.dir/World.cpp.o CMakeFiles/pr1.dir/WorldListener.cpp.o CMakeFiles/pr1.dir/animals/Wolf.cpp.o CMakeFiles/pr1.dir/animals/Sheep.cpp.o CMakeFiles/pr1.dir/animals/Fox.cpp.o CMakeFiles/pr1.dir/animals/Turtle.cpp.o CMakeFiles/pr1.dir/animals/Antilope.cpp.o CMakeFiles/pr1.dir/animals/Human.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/pr1.dir
   POST_BUILD = :

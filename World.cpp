@@ -23,12 +23,12 @@ World::~World() {
 
 void World::InitOrganisms() {
     // TODO: Create random num of every organism and set random pos that is within worldArea
-//    CreateAnimal(1, 1, {2, 1});
-//    CreateAnimal(1, 2, {1,1});
-//    CreateAnimal(1, 1, {rand() % worldArea.w + 1,rand() % worldArea.h + 1});
-    CreateAnimal(1, 8, {rand() % worldArea.w + 1, rand() % worldArea.h + 1});
-    CreateAnimal(1, 4, {rand() % worldArea.w + 1, rand() % worldArea.h + 1});
-    CreateAnimal(1, 2, {rand() % worldArea.w + 1, rand() % worldArea.h + 1});
+    CreateOrganism(WOLF);
+    CreateOrganism(SHEEP);
+    CreateOrganism(FOX);
+    CreateOrganism(TURTLE);
+    CreateOrganism(ANTILOPE);
+    CreateOrganism(HUMAN);
 }
 
 
@@ -45,6 +45,14 @@ void World::OrganismsSortAndCleanUp() {
 }
 
 
+bool World::isPlaceFree(Point p) {
+    for (auto &o: organisms) {
+        if (o->getPos() == p)
+            return false;
+    }
+    return true;
+}
+
 void World::MakeTurn() {
     turnsNum++;
 
@@ -54,10 +62,13 @@ void World::MakeTurn() {
         if (!o->isDead()) {
             o->Action(*this);
             WListener.AddEvent(
-                    "Animal(" + to_string(o->getId()) + ") with initiative (" + to_string(o->getInitiative()) +
+                    o->className() + "(" + to_string(o->getId()) + ") with initiative (" + to_string(o->getInitiative()) +
                     ") moved");
             o->Collision(*this);
         }
+
+//        if (turnsNum == 5 && o->getId() == 1)
+//            o->Die();
 
         // TODO: During collision if organism dies, call o.Die();
         if (!o->isDead()) {
@@ -73,17 +84,37 @@ void World::MakeTurn() {
     // - log event
 }
 
-void World::CreateAnimal(Animal *an) {
-    organisms.push_back(an);
+void World::CreateOrganism(Organism *o) {
+    organisms.push_back(o);
 
     WorldEvent e;
     e.details =
-            "Animal(" + to_string(an->getId()) + ") with initiative (" + to_string(an->getInitiative()) + ") created";
+            "Create: " + o->className() + "(id: " + to_string(o->getId()) + ", initiative: " + to_string(o->getInitiative()) + ")";
     WListener.AddEvent(e);
 }
 
-void World::CreateAnimal(int s, int i, Point p) {
-    CreateAnimal(new Animal(s, i, 0, p));
+void World::CreateOrganism(ORGANISM_E o_t) {
+    Point potentialPos = {};
+    do {
+        potentialPos = {rand() % worldArea.w + 1, rand() % worldArea.h + 1};
+    } while (!isPlaceFree(potentialPos));
+    CreateOrganism(o_t, potentialPos);
+}
+
+void World::CreateOrganism(ORGANISM_E o_t, Point p) {
+    // TODO: Hard coded strengths and initiatives
+    if (o_t == WOLF)
+        CreateOrganism(new Wolf(9, 5, 0, p));
+    else if (o_t == SHEEP)
+        CreateOrganism(new Sheep(4, 4, 0, p));
+    else if (o_t == FOX)
+        CreateOrganism(new Fox(3, 7, 0, p));
+    else if (o_t == TURTLE)
+        CreateOrganism(new Turtle(2, 1, 0, p));
+    else if (o_t == ANTILOPE)
+        CreateOrganism(new Antilope(4, 4, 0, p));
+    else if (o_t == HUMAN)
+        CreateOrganism(new Human(5, 4, 0, p));
 }
 
 bool World::WithinWorldArea(Point pos) const {

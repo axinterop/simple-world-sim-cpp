@@ -2,12 +2,14 @@
 #define PR1_ORGANISM_H
 
 #include "util.h"
+#include <string>
 
 class World;
 
 class Organism {
 protected:
     int id;
+    ORGANISM_E type;
     int strength;
     int initiative;
     int age;
@@ -23,6 +25,7 @@ public:
     virtual void Action(World &W) = 0;
     virtual void Collision(World &W) = 0;
     int getId() { return id; };
+    ORGANISM_E getType() { return type; };
     int getStrength() { return strength; };
     int getInitiative() { return initiative; };
     int getAge() { return age; };
@@ -33,6 +36,8 @@ public:
     Point getPos() { return pos; };
     Point getPrevPos() { return prevPos; };
     void RevertPos();
+
+    virtual std::string className() = 0;
 };
 
 #endif //PR1_ORGANISM_H

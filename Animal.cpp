@@ -33,3 +33,4 @@ void Animal::MoveInRandomDirection(World &W) {
     prevPos = pos;
     pos = potentialPos;
 }
+

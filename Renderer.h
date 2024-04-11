@@ -16,17 +16,7 @@ typedef enum {
     L // Log
 } WIN;
 
-typedef enum {
-    WOLF = 1,
-    SHEEP,
-    TURTLE,
-    ANTILOPE,
-    GRASS,
-    SONCHUS,
-    GUARANA,
-    BELLADONNA,
-    H_SOSNOWSKYI
-} ORGANISM_COLOR;
+
 
 
 class Renderer {

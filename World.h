@@ -3,10 +3,16 @@
 
 #include <vector>
 #include <algorithm>
+#include <typeinfo>
 
 #include "WorldListener.h"
 #include "Organism.h"
-#include "Animal.h"
+#include "animals/Wolf.h"
+#include "animals/Sheep.h"
+#include "animals/Fox.h"
+#include "animals/Turtle.h"
+#include "animals/Antilope.h"
+#include "animals/Human.h"
 #include "util.h"
 
 
@@ -22,17 +28,21 @@ private:
 
     void InitOrganisms();
 
+    void CreateOrganism(Organism *o);
+    void CreateOrganism(ORGANISM_E o_t);
+    void CreateOrganism(ORGANISM_E o_t, Point p);
+
     void OrganismsSortAndCleanUp();
+
+    bool isPlaceFree(Point p);
 
     friend class Renderer;
 public:
     World(const Rect &worldArea);
+
     ~World();
 
     void MakeTurn();
-
-    void CreateAnimal(Animal *an);
-    void CreateAnimal(int s, int i,  Point p);
 
     bool WithinWorldArea(Point pos) const;
     int getTurnsNum() { return turnsNum; };

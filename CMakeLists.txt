@@ -19,4 +19,16 @@ add_executable(pr1
         World.h
         World.cpp
         WorldListener.h
-        WorldListener.cpp)
+        WorldListener.cpp
+        animals/Wolf.h
+        animals/Wolf.cpp
+        animals/Sheep.h
+        animals/Sheep.cpp
+        animals/Fox.h
+        animals/Fox.cpp
+        animals/Turtle.h
+        animals/Turtle.cpp
+        animals/Antilope.h
+        animals/Antilope.cpp
+        animals/Human.h
+        animals/Human.cpp)

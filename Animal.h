@@ -10,6 +10,7 @@ public:
     using Organism::Organism;
     void Action(World &W) override;
     void Collision(World &W) override;
+    std::string className() override = 0;
 };
 
 
