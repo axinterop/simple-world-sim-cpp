@@ -4,6 +4,7 @@
 #include "util.h"
 #include <string>
 
+
 class World;
 
 class Organism {
@@ -22,8 +23,6 @@ public:
     Organism(int s, int i, int a, Point p) :
             id(free_id++), strength(s), initiative(i), age(a), pos(p) { };
     ~Organism() = default;
-    virtual void Action(World &W) = 0;
-    virtual void Collision(World &W) = 0;
     int getId() { return id; };
     ORGANISM_E getType() { return type; };
     int getStrength() { return strength; };
@@ -32,11 +31,14 @@ public:
     void getOlder() { age++; };
     void Die() { age = -1; };
     bool isDead() { return age == -1; };
-
+    void setPos(Point newPos) { prevPos = pos; pos = newPos; };
     Point getPos() { return pos; };
+
     Point getPrevPos() { return prevPos; };
     void RevertPos();
 
+    virtual void Action(World &W) = 0;
+    virtual void Collision(World &W) = 0;
     virtual std::string className() = 0;
 };
 

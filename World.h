@@ -1,9 +1,7 @@
 #ifndef PR1_WORLD_H
 #define PR1_WORLD_H
 
-#include <vector>
-#include <algorithm>
-#include <typeinfo>
+
 
 #include "WorldListener.h"
 #include "Organism.h"
@@ -16,13 +14,14 @@
 #include "util.h"
 
 
-using namespace std;
-
 class World {
 private:
+    bool worldPaused { false };
+    PLAYER_ACTIONS human_action;
+
     const Rect worldArea;
-    WorldListener WListener {};
-    vector<Organism*> organisms;
+    std::vector<Organism*> organisms;
+    std::vector<Organism*> children;
 
     int turnsNum {};
 
@@ -38,17 +37,25 @@ private:
 
     friend class Renderer;
 public:
-    World(const Rect &worldArea);
+    WorldListener WListener {};
 
+    World(const Rect &worldArea);
     ~World();
 
     void MakeTurn();
+    bool isPaused() { return worldPaused; };
 
     bool WithinWorldArea(Point pos) const;
     int getTurnsNum() { return turnsNum; };
 
-    const vector<Organism*> *getOrganisms() { return &organisms; };
+    const std::vector<Organism*> *getOrganisms() { return &organisms; };
     int getOrganismsNum() { return organisms.size(); };
+
+    void setHumanAction(PLAYER_ACTIONS a) { human_action = a; };
+    PLAYER_ACTIONS getHumanAction() { return human_action; };
+
+    Point FindPosNearParents(Point p1, Point p2);
+    void CreateOffspring(Organism &p1, Organism &p2);
 };
 
 #include "Renderer.h"

@@ -6,7 +6,6 @@
 
 class Wolf: public Animal {
 public:
-    using Animal::Animal;
     Wolf() : Animal() {
         type = WOLF;
     }

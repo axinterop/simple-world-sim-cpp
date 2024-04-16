@@ -7,3 +7,6 @@ void Organism::RevertPos() {
     pos = prevPos;
     prevPos = temp;
 };
+
+void Organism::Action(World &W) {}
+void Organism::Collision(World &W) {}

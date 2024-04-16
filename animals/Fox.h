@@ -2,6 +2,7 @@
 #define PR1_FOX_H
 
 #include "../Animal.h"
+#include "../World.h"
 
 
 class Fox: public Animal {
@@ -13,6 +14,8 @@ public:
     Fox(int s, int i, int a, Point p) : Animal(s, i, a, p) {
         type = FOX;
     }
+
+    void Action(World &W) final;
 
     std::string className() { return "Fox"; };
 };

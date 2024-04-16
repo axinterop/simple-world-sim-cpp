@@ -4,25 +4,23 @@
 #include <string>
 #include <queue>
 
-using namespace std;
-
 struct WorldEvent {
 //    string title;
 //    int priority; // May be useful
-    string details;
+    std::string details;
 };
 
 
 class WorldListener {
 private:
-    queue<WorldEvent> events;
+    std::queue<WorldEvent> events;
 
     friend class Renderer;
 public:
     WorldListener() { events = {}; };
     ~WorldListener() = default;
 
-    void AddEvent(string d);
+    void AddEvent(std::string d);
     void AddEvent(const WorldEvent& we);
 };
 

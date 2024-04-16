@@ -10,8 +10,9 @@ Renderer::~Renderer() {
     endwin();
 }
 
-
-void Renderer::Draw(const std::string &t, const Point &pos) { this->Draw(t, pos, WIN::S); }
+void Renderer::Draw(const std::string &t, const Point &pos) {
+    this->Draw(t, pos, WIN::S);
+}
 
 void Renderer::Draw(const std::string &t, const Point &pos, chtype a) {
     this->Draw(t, pos, a, WIN::S);
@@ -29,9 +30,12 @@ void Renderer::Draw(const std::string &t, const Point &pos, chtype a, WIN w) {
 
 void Renderer::newWins() {
     float ratio = 0.3;
-    Rect s = {0, 0, (int) (COLS * (1 - ratio)), LINES - 7}; // TODO: Has to be resizable
-    Rect i = {s.x, (s.y + s.h), (int) (COLS * (1 - ratio)), LINES - s.h}; // TODO: Depends on sim win
-    Rect l = {(s.x + s.w), s.y, (int) (COLS * ratio), LINES}; // TODO: Depends on sim win
+    Rect s = {0, 0, (int)(COLS * (1 - ratio)),
+              LINES - 7}; // TODO: Has to be resizable
+    Rect i = {s.x, (s.y + s.h), (int)(COLS * (1 - ratio)),
+              LINES - s.h}; // TODO: Depends on sim win
+    Rect l = {(s.x + s.w), s.y, (int)(COLS * ratio),
+              LINES}; // TODO: Depends on sim win
     Rect r[] = {s, i, l};
 
     for (int j = 0; j < w_n; j++) {
@@ -40,9 +44,7 @@ void Renderer::newWins() {
     }
 }
 
-void Renderer::newWin(WIN w, Rect &r) {
-    WINS[w] = newwin(r.h, r.w, r.y, r.x);
-}
+void Renderer::newWin(WIN w, Rect &r) { WINS[w] = newwin(r.h, r.w, r.y, r.x); }
 
 void Renderer::delWins() {
     for (int i = 0; i < w_n; i++) {
@@ -51,17 +53,11 @@ void Renderer::delWins() {
     }
 }
 
-void Renderer::delWin(WIN w) {
-    delwin(WINS[w]);
-}
+void Renderer::delWin(WIN w) { delwin(WINS[w]); }
 
-void Renderer::Refresh() {
-    Refresh(WIN::S);
-}
+void Renderer::Refresh() { Refresh(WIN::S); }
 
-void Renderer::Refresh(WIN w) {
-    wrefresh(WINS[w]);
-}
+void Renderer::Refresh(WIN w) { wrefresh(WINS[w]); }
 
 void Renderer::RefreshAll() {
     for (int i = 0; i < w_n; i++) {
@@ -70,13 +66,9 @@ void Renderer::RefreshAll() {
     }
 }
 
-WINDOW const *Renderer::getWin(WIN w) const {
-    return WINS[w];
-}
+WINDOW const *Renderer::getWin(WIN w) const { return WINS[w]; }
 
-void Renderer::Clean(WIN w) {
-    wclear(WINS[w]);
-}
+void Renderer::Clean(WIN w) { wclear(WINS[w]); }
 
 void Renderer::CleanAll() {
     for (int i = 0; i < w_n; i++) {
@@ -85,9 +77,7 @@ void Renderer::CleanAll() {
     }
 }
 
-void Renderer::BoxWin(WIN w) {
-    box(WINS[w], 0, 0);
-}
+void Renderer::BoxWin(WIN w) { box(WINS[w], 0, 0); }
 
 void Renderer::EmptyWin(WIN w) {
     Clean(w);
@@ -95,50 +85,62 @@ void Renderer::EmptyWin(WIN w) {
 }
 
 void Renderer::DrawWorld(World *W) {
-    for (auto o: W->organisms) {
+    for (auto o : W->organisms) {
         if (o->isDead())
             continue;
         if (o->getType() == HUMAN)
-            Draw("H", o->getPos(), A_BOLD | A_BLINK | A_UNDERLINE);
+            if (W->isPaused())
+                Draw("H", o->getPos(), A_BOLD | A_BLINK | A_UNDERLINE);
+            else
+                Draw("H", o->getPos());
+
         else
-            Draw(to_string(o->getId()), o->getPos(), COLOR_PAIR(o->getType()));
+            Draw(o->className().substr(0, 1), o->getPos(),
+                 COLOR_PAIR(o->getType()));
+        //            Draw(to_string(o->getId()), o->getPos(),
+        //            COLOR_PAIR(o->getType())); // For tests
     }
 }
 
 void Renderer::ShowListenersOutput(World *W) {
-    // TODO: Fix so the text moves up instead of cleaning and going from beginning
+    // TODO: Fix so the text moves up instead of cleaning and going from
+    // beginning
     if (ly == getmaxy(WINS[WIN::L]) - 2) {
         EmptyWin(WIN::L);
         ly = 0;
     }
-    Draw("Turn " + to_string(W->getTurnsNum()) + ":", {lx, ly + 1}, WIN::L);
-    ly++;
-    for (; !W->WListener.events.empty();  W->WListener.events.pop()) {
+
+    if (W->isPaused()) {
+        Draw("- Turn " + std::to_string(W->getTurnsNum()) + ":", {lx, ly + 1},
+             WIN::L);
+        ly++;
+    }
+
+    for (; !W->WListener.events.empty(); W->WListener.events.pop()) {
         if (ly == getmaxy(WINS[WIN::L]) - 2) {
             EmptyWin(WIN::L);
             ly = 0;
         }
-        Draw(W->WListener.events.front().details, {lx, ly + 1},WIN::L);
+        Draw(W->WListener.events.front().details, {lx, ly + 1}, WIN::L);
         ly++;
     }
 }
 
-
 void InitializeRenderer() {
-    initscr();            /* Start curses mode 		*/
-//    timeout(0);             /* Non-breaking input mode */
-    raw();                /* Line buffering disabled	*/
-    keypad(stdscr, TRUE);        /* We get F1, F2 etc..		*/
-    noecho();            /* Don't echo() while we do getch */
-    curs_set(0);        /* Sets the cursor state is set to invisible */
-    if(has_colors() == FALSE)
+    initscr(); /* Start curses mode 		*/
+               //    timeout(0);             /* Non-breaking input mode */
+    raw();     /* Line buffering disabled	*/
+    keypad(stdscr, TRUE); /* We get F1, F2 etc..		*/
+    noecho();             /* Don't echo() while we do getch */
+    curs_set(0);          /* Sets the cursor state is set to invisible */
+    if (has_colors() == FALSE)
         printf("[WARNING]: Terminal does not support colors\n");
     else
         start_color();
 
     init_pair(ORGANISM_E::WOLF, COLOR_BLACK, COLOR_RED);
     init_pair(ORGANISM_E::SHEEP, COLOR_BLACK, COLOR_WHITE);
-    init_pair(ORGANISM_E::FOX, COLOR_WHITE, COLOR_YELLOW);
+    init_pair(ORGANISM_E::FOX, COLOR_BLACK, COLOR_YELLOW);
     init_pair(ORGANISM_E::TURTLE, COLOR_CYAN, COLOR_GREEN);
     init_pair(ORGANISM_E::ANTILOPE, COLOR_RED, COLOR_YELLOW);
 
