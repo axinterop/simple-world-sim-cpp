@@ -6,7 +6,7 @@
 
 class Human : public Animal {
   private:
-    PLAYER_ACTIONS action;
+    PLAYER_ACTION action;
 
   public:
     Human() : Animal() { type = HUMAN; }

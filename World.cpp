@@ -14,7 +14,7 @@ bool OrganismInitiativeComparator(Organism *o1, Organism *o2) {
 World::World(const Rect &worldArea) : worldArea(worldArea) { InitOrganisms(); }
 
 World::~World() {
-    for (auto &organism : organisms) {
+    for (auto &organism: organisms) {
         delete organism;
     }
 }
@@ -22,9 +22,9 @@ World::~World() {
 void World::InitOrganisms() {
     // TODO: Create random num of every organism and set random pos that is
     // within worldArea
-    double f = 80;
+    double f = 100; // 80
     double c = f / 10000.0f;
-    int oNum = (int)(worldArea.h * worldArea.w * c);
+    int oNum = (int) (worldArea.h * worldArea.w * c);
     for (int i = 0; i < oNum * 0.2; i++) {
         CreateOrganism(WOLF);
         CreateOrganism(SHEEP);
@@ -32,12 +32,7 @@ void World::InitOrganisms() {
         CreateOrganism(TURTLE);
         CreateOrganism(ANTILOPE);
     }
-    //    CreateOrganism(WOLF);
-    //    CreateOrganism(SHEEP);
-    //    CreateOrganism(FOX);
-    //    CreateOrganism(TURTLE);
-    //    CreateOrganism(ANTILOPE);
-    CreateOrganism(HUMAN);
+//    CreateOrganism(HUMAN);
 }
 
 void World::OrganismsSortAndCleanUp() {
@@ -56,7 +51,7 @@ void World::OrganismsSortAndCleanUp() {
 }
 
 bool World::isPlaceFree(Point p) {
-    for (auto &o : organisms) {
+    for (auto &o: organisms) {
         if (o->getPos() == p)
             return false;
     }
@@ -69,57 +64,57 @@ void World::MakeTurn() {
 
     OrganismsSortAndCleanUp();
 
-    for (auto &o : organisms) {
-        // World is paused, 'for' until Human
-        if (worldPaused && o->getType() != HUMAN)
+    for (auto &this_o: organisms) {
+        if (this_o->isDead())
+            break;
+
+        // World is paused: 'for' until Human
+        if (worldPaused && this_o->getType() != HUMAN)
             continue;
 
-        if (!o->isDead()) {
-            // World is not paused, begin to handle Player input
-            if (!worldPaused && o->getType() == HUMAN) {
-                worldPaused = true;
-                return;
-            }
-
-
-
-            o->Action(*this);
-            //            WListener.AddEvent(
-            //                    o->className() + "(" + to_string(o->getId()) +
-            //                    ") with initiative (" +
-            //                    to_string(o->getInitiative()) +
-            //                    ") moved");
-            o->Collision(*this);
-
-            // If World is unpaused, it will be ignored
-            // If World is paused, current 'o' is Human, it made its Action()
-            // and Collision(), so unpause
-            if (worldPaused)
-                worldPaused = false;
-
+        // World is not paused: start of Player's input handling
+        if (!worldPaused && this_o->getType() == HUMAN) {
+            worldPaused = true;
+            return;
         }
 
-        // TODO: During collision if organism dies, call o.Die();
-        if (!o->isDead()) {
-            o->getOlder();
+        this_o->Action(*this);
+
+        for (auto &other_o: organisms) {
+            if (this_o == other_o || other_o->isDead()) {
+                continue;
+            }
+            if (this_o->getPos() == other_o->getPos()) {
+                ReactOnCollision(*this_o, *other_o);
+            }
+        }
+
+        // If World is not paused, it will be ignored
+        // If World is paused, current 'this_o' is Human, it made its Action()
+        // and Collision(), so unpause
+        if (worldPaused)
+            worldPaused = false;
+
+
+        // TODO: During collision if organism dies, call this_o.Die();
+        if (!this_o->isDead()) {
+            this_o->AfterTurn(*this);
         }
     }
-
-    // for every creature:
-    // - Action()
-    // - check Collision()
-    // - react
-    // - log event
 }
 
 void World::CreateOrganism(Organism *o) {
+    if (turnsNum != 0)
+        o->breedSetPause(30);
+    else
+        o->breedSetPause(20);
     organisms.push_back(o);
 
     WorldEvent e;
     e.details = "Create: " + o->className() +
                 "(id: " + std::to_string(o->getId()) +
                 ", initiative: " + std::to_string(o->getInitiative()) + ")";
-    WListener.AddEvent(e);
+    WListener.RecordEvent(e);
 }
 
 void World::CreateOrganism(ORGANISM_E o_t) {
@@ -146,6 +141,22 @@ void World::CreateOrganism(ORGANISM_E o_t, Point p) {
         CreateOrganism(new Human(5, 4, 0, p));
 }
 
+void World::ReactOnCollision(Organism &this_o, Organism &other_o) {
+    COLLISION_STATUS c_s = this_o.Collision(other_o);
+
+    if (c_s == BREED) {
+        CreateOffspring(this_o, other_o);
+        this_o.breedSetPause();
+        other_o.breedSetPause();
+    }
+
+    if (c_s == ESCAPE) {
+        other_o.setPos(getFreePosNearby(other_o.getPos()));
+    }
+
+    WListener.RecordCollision(c_s, this_o, other_o);
+}
+
 bool World::WithinWorldArea(Point pos) const {
     if (pos.x >= worldArea.x && pos.x <= worldArea.w && pos.y >= worldArea.y &&
         pos.y <= worldArea.h)
@@ -153,21 +164,88 @@ bool World::WithinWorldArea(Point pos) const {
     return false;
 }
 
-void World::CreateOffspring(Organism &p1, Organism &p2) {
+Point World::getRandomPosNearby(Point pos, int k) {
+    // TODO: Refactor getRandomPosNearby()
+    Point potentialPos = {0, 0};
+    int dx[8] = {-1, 1, 0, 0, -1, -1, 1, 1};
+    int dy[8] = {0, 0, -1, 1, -1, 1, -1, 1};
+    int dIndex[8]{0, 1, 2, 3, 4, 5, 6, 7};
+    int iCount = 0;
 
+    while (iCount != 8) {
+        potentialPos = pos;
+        int randIndex = rand() % 8;
+        int sIndex = dIndex[randIndex];
+        if (sIndex == -1)
+            continue;
+
+        potentialPos.x += dx[sIndex] * k;
+        potentialPos.y += dy[sIndex] * k;
+        if (WithinWorldArea(potentialPos))
+            return potentialPos;
+        else
+            dIndex[sIndex] = -1;
+        iCount++;
+    }
+    return pos;
+}
+
+Point World::getFreePosNearby(Point pos) {
+    Point potentialPos = {0, 0};
+    int dx[8] = {-1, 1, 0, 0, -1, -1, 1, 1};
+    int dy[8] = {0, 0, -1, 1, -1, 1, -1, 1};
+    std::vector<int> dIndex {0, 1, 2, 3, 4, 5, 6, 7};
+    int iCount = 0;
+    int k = 1;
+
+    while (true) {
+        if (iCount == 8) {
+            iCount = 0;
+            k++;
+            dIndex = {0, 1, 2, 3, 4, 5, 6, 7};
+        }
+        potentialPos = pos;
+        int randIndex = rand() % 8;
+        int sIndex = dIndex[randIndex];
+        if (sIndex == -1)
+            continue;
+
+        potentialPos.x += dx[sIndex] * k;
+        potentialPos.y += dy[sIndex] * k;
+        if (WithinWorldArea(potentialPos)) {
+            for (auto other_o: organisms) {
+                if (other_o->getPos() != potentialPos)
+                    return potentialPos;
+            }
+        }
+        else
+            dIndex[sIndex] = -1;
+        iCount++;
+    }
+}
+
+void World::CreateOffspring(Organism &p1, Organism &p2) {
     if (p1.getType() != p2.getType())
         return;
+
     Point newPos {};
     if (p1.getPos() == p2.getPos())
         newPos = FindPosNearParents(p1.getPrevPos(), p2.getPos());
     else
         newPos = FindPosNearParents(p1.getPos(), p2.getPos());
+
     ORGANISM_E type = p1.getType();
     CreateOrganism(type, newPos);
 }
 
 Point World::FindPosNearParents(Point p1, Point p2) {
-    Point r = {p1.x + p1.x - p2.x, p1.y + p1.y - p2.y};
-    return r;
+    Point potentialPos = p2;
+    while (potentialPos == p2) {
+        potentialPos = getFreePosNearby(p1);
+    }
+
+    return potentialPos;
 }
+
+
 

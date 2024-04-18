@@ -4,13 +4,14 @@
 #include "Organism.h"
 
 class Animal : public Organism {
-private:
-    void MoveInRandomDirection(World &W);
 public:
     using Organism::Organism;
     void Action(World &W) override;
-    void Collision(World &W) override;
+    COLLISION_STATUS Collision(Organism &other) override;
     std::string className() override = 0;
+
+    bool isAttackBlocked(Organism &other);
+    bool escapedFight(Organism &other);
 };
 
 

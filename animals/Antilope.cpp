@@ -1,5 +1,5 @@
-//
-// Created by dixie on 4/11/24.
-//
-
 #include "Antilope.h"
+
+void Antilope::Action(World &W) {
+    setPos(W.getRandomPosNearby(pos, 2));
+}

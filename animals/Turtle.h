@@ -13,6 +13,8 @@ public:
         type = TURTLE;
     }
 
+    void Action(World &W) final;
+
     std::string className() { return "Turtle"; };
 };
 

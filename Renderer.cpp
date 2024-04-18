@@ -30,11 +30,11 @@ void Renderer::Draw(const std::string &t, const Point &pos, chtype a, WIN w) {
 
 void Renderer::newWins() {
     float ratio = 0.3;
-    Rect s = {0, 0, (int)(COLS * (1 - ratio)),
+    Rect s = {0, 0, (int) (COLS * (1 - ratio)),
               LINES - 7}; // TODO: Has to be resizable
-    Rect i = {s.x, (s.y + s.h), (int)(COLS * (1 - ratio)),
+    Rect i = {s.x, (s.y + s.h), (int) (COLS * (1 - ratio)),
               LINES - s.h}; // TODO: Depends on sim win
-    Rect l = {(s.x + s.w), s.y, (int)(COLS * ratio),
+    Rect l = {(s.x + s.w), s.y, (int) (COLS * ratio),
               LINES}; // TODO: Depends on sim win
     Rect r[] = {s, i, l};
 
@@ -85,7 +85,7 @@ void Renderer::EmptyWin(WIN w) {
 }
 
 void Renderer::DrawWorld(World *W) {
-    for (auto o : W->organisms) {
+    for (auto o: W->organisms) {
         if (o->isDead())
             continue;
         if (o->getType() == HUMAN)
@@ -103,32 +103,28 @@ void Renderer::DrawWorld(World *W) {
 }
 
 void Renderer::ShowListenersOutput(World *W) {
-    // TODO: Fix so the text moves up instead of cleaning and going from
-    // beginning
-    if (ly == getmaxy(WINS[WIN::L]) - 2) {
+    // TODO: Fix so the text moves up instead of cleaning and going from beginning
+    if (ly == getmaxy(WINS[WIN::L]) - 1) {
         EmptyWin(WIN::L);
-        ly = 0;
+        ly = 1;
     }
 
-    if (W->isPaused()) {
-        Draw("- Turn " + std::to_string(W->getTurnsNum()) + ":", {lx, ly + 1},
+    if (!W->WListener.events.empty()) {
+        Draw("- Turn " + std::to_string(W->getTurnsNum()) + ":", {lx, ly++},
              WIN::L);
-        ly++;
-    }
-
-    for (; !W->WListener.events.empty(); W->WListener.events.pop()) {
-        if (ly == getmaxy(WINS[WIN::L]) - 2) {
-            EmptyWin(WIN::L);
-            ly = 0;
+        for (; !W->WListener.events.empty(); W->WListener.events.pop()) {
+            if (ly == getmaxy(WINS[WIN::L]) - 1) {
+                EmptyWin(WIN::L);
+                ly = 1;
+            }
+            Draw(W->WListener.events.front().details, {lx, ly++}, WIN::L);
         }
-        Draw(W->WListener.events.front().details, {lx, ly + 1}, WIN::L);
-        ly++;
     }
 }
 
 void InitializeRenderer() {
     initscr(); /* Start curses mode 		*/
-               //    timeout(0);             /* Non-breaking input mode */
+    //    timeout(0);             /* Non-breaking input mode */
     raw();     /* Line buffering disabled	*/
     keypad(stdscr, TRUE); /* We get F1, F2 etc..		*/
     noecho();             /* Don't echo() while we do getch */

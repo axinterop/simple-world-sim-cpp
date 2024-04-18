@@ -3,35 +3,53 @@
 #include "World.h"
 
 void Animal::Action(World &W) {
-    MoveInRandomDirection(W);
+    setPos(W.getRandomPosNearby(pos));
 }
 
-void Animal::Collision(World &W) {
-    // TODO: Maybe handle collisions in the world class and just call o.ReactCollision(Organism &other) if there is a collision?
-    for (auto other_o: *W.getOrganisms()) {
-        if (this == other_o || other_o->isDead())
-            continue;
-        if (this->getPos() == other_o->getPos()) {
-            if (this->getType() == other_o->getType()) {
-                RevertPos();
-                // TODO: Every animal should contain information about its parents (2 ids) and, if it collides with its parents - do nothing
-//                W.CreateOffspring(*this, *other_o); // TODO: Uncomment and implement
-            }
+COLLISION_STATUS Animal::Collision(Organism &other) {
+    if (this->getType() == other.getType()) {
+        // Breeding is handled in World::ReactOnCollision() because it needs World's fields.
+        // Not the best solution.
+        if (this->canBreed() && other.canBreed()) {
+            RevertPos();
+            return COLLISION_STATUS::BREED;
         }
+    } else if (this->getStrength() >= other.getStrength()) {
+        if (isAttackBlocked(other)) {
+            RevertPos();
+            return COLLISION_STATUS::BLOCK_ATTACK;
+        }
+        else if (escapedFight(other)) {
+            return COLLISION_STATUS::ESCAPE;
+        }
+        else {
+            other.Die();
+            return COLLISION_STATUS::KILL;
+        }
+    } else if (this->getStrength() < other.getStrength()) {
+        this->Die();
+        return COLLISION_STATUS::DIE;
     }
+
+    RevertPos();
+    return COLLISION_STATUS::STAY;
 }
 
-void Animal::MoveInRandomDirection(World &W) {
-    // TODO: Refactor MoveInRandomDirection()
-    Point potentialPos = {};
-    int dx[8] = {-1, 1, 0, 0, -1, -1, 1, 1};
-    int dy[8] = {0, 0, -1, 1, -1, 1, -1, 1};
-    while (!W.WithinWorldArea(potentialPos)) {
-        potentialPos = pos;
-        int s = rand() % 8;
-        potentialPos.x += dx[s];
-        potentialPos.y += dy[s];
+
+bool Animal::isAttackBlocked(Organism &other) {
+    // `this` is an attacker
+    if (this->getStrength() >= other.getStrength()) {
+        if (other.getType() == TURTLE && this->getStrength() < 5)
+            return true;
     }
-    setPos(potentialPos);
+    return false;
 }
 
+bool Animal::escapedFight(Organism &other) {
+    // `this` is an attacker
+    if (this->getStrength() >= other.getStrength()) {
+        if (other.getType() == ANTILOPE)
+            return (bool) rand() % 2;
+    }
+    return false;
+}

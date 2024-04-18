@@ -29,7 +29,7 @@ private:
     void delWin(WIN w);
 
     int lx = 1; // Log's x
-    int ly = 0; // Log's y
+    int ly = 1; // Log's y
 public:
     Renderer();
     ~Renderer();

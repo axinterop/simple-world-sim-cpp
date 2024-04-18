@@ -1,7 +1,7 @@
 #include "Human.h"
 
 void Human::Action(World &W) {
-    PLAYER_ACTIONS a = W.getHumanAction();
+    PLAYER_ACTION a = W.getHumanAction();
     // Movement
     if (a != NO_ACTION && a != POWER) {
         Point potentialPos = {pos.x, pos.y};

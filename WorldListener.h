@@ -3,6 +3,8 @@
 
 #include <string>
 #include <queue>
+#include "Organism.h"
+#include "util.h"
 
 struct WorldEvent {
 //    string title;
@@ -20,8 +22,10 @@ public:
     WorldListener() { events = {}; };
     ~WorldListener() = default;
 
-    void AddEvent(std::string d);
-    void AddEvent(const WorldEvent& we);
+    void RecordEvent(std::string d);
+    void RecordEvent(const WorldEvent& we);
+
+    void RecordCollision(COLLISION_STATUS c_s, Organism &this_o, Organism &other_o);
 };
 
 
