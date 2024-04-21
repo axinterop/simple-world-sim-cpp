@@ -12,6 +12,7 @@ public:
 
     bool isAttackBlocked(Organism &other);
     bool escapedFight(Organism &other);
+    bool avoidedDeath(Organism &other);
 };
 
 

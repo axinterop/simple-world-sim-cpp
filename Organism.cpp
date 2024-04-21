@@ -19,5 +19,5 @@ void Organism::AfterTurn(World &W) {
 //        W.WListener.RecordEvent(classInfo() + " is too old to live...");
 //    }
 //    else
-        breedDecreasePause();
+    breedDecreasePause();
 }

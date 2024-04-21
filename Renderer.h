@@ -41,6 +41,7 @@ public:
 
     void DrawWorld(World *W);
     void ShowListenersOutput(World *W);
+    void ShowPlayerInformation(World *W);
 
     void Refresh();
     void Refresh(WIN w);
@@ -50,6 +51,7 @@ public:
     void BoxWin(WIN w);
     void EmptyWin(WIN w);
     WINDOW const *getWin(WIN w) const;
+
 };
 
 void InitializeRenderer();

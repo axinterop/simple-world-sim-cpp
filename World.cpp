@@ -17,12 +17,14 @@ World::~World() {
     for (auto &organism: organisms) {
         delete organism;
     }
+    for (auto &chunk: plantChunks) {
+        delete chunk;
+    }
 }
 
 void World::InitOrganisms() {
-    // TODO: Create random num of every organism and set random pos that is
     // within worldArea
-    double f = 100; // 80
+    double f = 80; // 80
     double c = f / 10000.0f;
     int oNum = (int) (worldArea.h * worldArea.w * c);
     for (int i = 0; i < oNum * 0.2; i++) {
@@ -31,8 +33,13 @@ void World::InitOrganisms() {
         CreateOrganism(FOX);
         CreateOrganism(TURTLE);
         CreateOrganism(ANTILOPE);
+        CreatePlantChunk(GRASS);
+        CreatePlantChunk(SONCHUS);
+        CreatePlantChunk(GUARANA);
+        CreatePlantChunk(BELLADONNA);
+        CreatePlantChunk(H_SOSNOWSKYI);
     }
-//    CreateOrganism(HUMAN);
+    CreateOrganism(HUMAN);
 }
 
 void World::OrganismsSortAndCleanUp() {
@@ -47,6 +54,17 @@ void World::OrganismsSortAndCleanUp() {
                 organisms.erase(organisms.begin() + i);
             }
         }
+    }
+
+    for (auto o: organisms)
+        o->canMakeTurn = true;
+
+
+    for (auto &chunk: plantChunks) {
+        if (chunk->isEmpty())
+            delete chunk;
+        else
+            chunk->seeded_this_turn = false;
     }
 }
 
@@ -65,18 +83,22 @@ void World::MakeTurn() {
     OrganismsSortAndCleanUp();
 
     for (auto &this_o: organisms) {
-        if (this_o->isDead())
+        if (this_o->isDead() || !this_o->canMakeTurn)
             break;
+
+
+        // World is not paused: start of Player's input handling
+        if (!worldPaused && this_o->getType() == HUMAN) {
+            auto h = dynamic_cast<Human*>(this_o);
+            human_power_turns = h->getPowerTurns();
+            human_power_CD = h->getPowerCD();
+            worldPaused = true;
+            return;
+        }
 
         // World is paused: 'for' until Human
         if (worldPaused && this_o->getType() != HUMAN)
             continue;
-
-        // World is not paused: start of Player's input handling
-        if (!worldPaused && this_o->getType() == HUMAN) {
-            worldPaused = true;
-            return;
-        }
 
         this_o->Action(*this);
 
@@ -96,49 +118,58 @@ void World::MakeTurn() {
             worldPaused = false;
 
 
-        // TODO: During collision if organism dies, call this_o.Die();
         if (!this_o->isDead()) {
             this_o->AfterTurn(*this);
         }
     }
 }
 
-void World::CreateOrganism(Organism *o) {
-    if (turnsNum != 0)
+Organism& World::CreateOrganism(Organism *o) {
+    if (turnsNum != 0) {
         o->breedSetPause(30);
-    else
+        o->canMakeTurn = false;
+    }
+    else {
         o->breedSetPause(20);
+        o->canMakeTurn = true;
+    }
     organisms.push_back(o);
-
-    WorldEvent e;
-    e.details = "Create: " + o->className() +
-                "(id: " + std::to_string(o->getId()) +
-                ", initiative: " + std::to_string(o->getInitiative()) + ")";
-    WListener.RecordEvent(e);
+    return *o;
 }
 
-void World::CreateOrganism(ORGANISM_E o_t) {
+Organism& World::CreateOrganism(ORGANISM_E o_t) {
     Point potentialPos = {};
     do {
         potentialPos = {rand() % worldArea.w + 1, rand() % worldArea.h + 1};
     } while (!isPlaceFree(potentialPos));
-    CreateOrganism(o_t, potentialPos);
+    return CreateOrganism(o_t, potentialPos);
 }
 
-void World::CreateOrganism(ORGANISM_E o_t, Point p) {
+Organism& World::CreateOrganism(ORGANISM_E o_t, Point p) {
     // TODO: Hard coded strengths and initiatives
     if (o_t == WOLF)
-        CreateOrganism(new Wolf(9, 5, 0, p));
+        return CreateOrganism(new Wolf(9, 5, 0, p));
     else if (o_t == SHEEP)
-        CreateOrganism(new Sheep(4, 4, 0, p));
+        return CreateOrganism(new Sheep(4, 4, 0, p));
     else if (o_t == FOX)
-        CreateOrganism(new Fox(3, 7, 0, p));
+        return CreateOrganism(new Fox(3, 7, 0, p));
     else if (o_t == TURTLE)
-        CreateOrganism(new Turtle(2, 1, 0, p));
+        return CreateOrganism(new Turtle(2, 1, 0, p));
     else if (o_t == ANTILOPE)
-        CreateOrganism(new Antilope(4, 4, 0, p));
+        return CreateOrganism(new Antilope(4, 4, 0, p));
     else if (o_t == HUMAN)
-        CreateOrganism(new Human(5, 4, 0, p));
+        return CreateOrganism(new Human(5, 4, 0, p));
+
+    else if (o_t == GRASS)
+        return CreateOrganism(new Grass(0, 0, 0, p));
+    else if (o_t == SONCHUS)
+        return CreateOrganism(new Sonchus(0, 0, 0, p));
+    else if (o_t == GUARANA)
+        return CreateOrganism(new Guarana(0, 0, 0, p));
+    else if (o_t == BELLADONNA)
+        return CreateOrganism(new Belladonna(99, 0, 0, p));
+    else if (o_t == H_SOSNOWSKYI)
+        return CreateOrganism(new H_Sosnowskyi(10, 0, 0, p));
 }
 
 void World::ReactOnCollision(Organism &this_o, Organism &other_o) {
@@ -238,13 +269,51 @@ void World::CreateOffspring(Organism &p1, Organism &p2) {
     CreateOrganism(type, newPos);
 }
 
+void World::CreatePlantOffspring(Organism &p1) {
+    ORGANISM_E type = p1.getType();
+    auto *p = dynamic_cast<Plant *>(&p1);
+    auto *pChunk = p->getChunk();
+    for (auto & organism : organisms)
+        if (organism->getId() == p->getRandomChunkPlantID()) {
+            Point new_pos = getFreePosNearby(organism->getPos());
+            if (new_pos == Point{0, 0})
+                return;
+            auto *new_plant = dynamic_cast<Plant *>(&CreateOrganism(type, new_pos));
+            new_plant->setChunk(pChunk);
+            pChunk->addPlantID(new_plant->getId());
+            break;
+        }
+}
+
 Point World::FindPosNearParents(Point p1, Point p2) {
     Point potentialPos = p2;
     while (potentialPos == p2) {
         potentialPos = getFreePosNearby(p1);
     }
-
     return potentialPos;
+}
+
+void World::CreatePlantChunk(ORGANISM_E o_t, Point pos) {
+    PlantChunk *plantChunk = new PlantChunk();
+
+    auto plant = dynamic_cast<Plant *>(&CreateOrganism(o_t, pos));
+
+    plantChunk->addPlantID(plant->getId());
+    plantChunks.push_back(plantChunk);
+    plant->setChunk(plantChunk);
+}
+
+void World::CreatePlantChunk(ORGANISM_E o_t) {
+    Point potentialPos = {};
+    do {
+        potentialPos = {rand() % worldArea.w + 1, rand() % worldArea.h + 1};
+    } while (!isPlaceFree(potentialPos));
+    CreatePlantChunk(o_t, potentialPos);
+}
+
+bool World::setHumanAction(PLAYER_ACTION a) {
+    human_action = a;
+    return true;
 }
 
 

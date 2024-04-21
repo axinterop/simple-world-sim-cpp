@@ -2,7 +2,6 @@
 
 void Human::Action(World &W) {
     PLAYER_ACTION a = W.getHumanAction();
-    // Movement
     if (a != NO_ACTION && a != POWER) {
         Point potentialPos = {pos.x, pos.y};
         if (a == GO_RIGHT) {
@@ -17,6 +16,38 @@ void Human::Action(World &W) {
         if (W.WithinWorldArea(potentialPos))
             setPos(potentialPos);
     } else if (a == POWER) {
-        // Power
+        if (power_cool_down == 0) {
+            PowerActivate();
+            W.WListener.RecordEvent("Power activated: invincibility for 5 turns");
+        }
     }
+}
+
+void Human::AfterTurn(World &W) {
+    getOlder();
+    if (power_is_active) {
+        if (power_turns == 0) {
+            PowerDeactivate();
+            W.WListener.RecordEvent("Power deactivated.");
+        }
+        else {
+            power_turns--;
+            power_cool_down = 5;
+        }
+    } else if (!power_is_active) {
+        if (power_cool_down != 0)
+            power_cool_down--;
+    }
+}
+
+void Human::PowerActivate() {
+    power_is_active = true;
+    power_turns = 6;
+    power_cool_down = 0;
+}
+
+void Human::PowerDeactivate() {
+    power_is_active = false;
+    power_turns = 0;
+    power_cool_down = 5;
 }

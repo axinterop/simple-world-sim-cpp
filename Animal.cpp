@@ -15,20 +15,35 @@ COLLISION_STATUS Animal::Collision(Organism &other) {
             return COLLISION_STATUS::BREED;
         }
     } else if (this->getStrength() >= other.getStrength()) {
-        if (isAttackBlocked(other)) {
+        if (other.getType() == GRASS || other.getType() == SONCHUS)
+            return COLLISION_STATUS::STAY;
+        if (other.getType() == GUARANA) {
+            strength += 3;
+            other.Die();
+            return COLLISION_STATUS::BOOST_POWER;
+        } else if (isAttackBlocked(other)) {
             RevertPos();
             return COLLISION_STATUS::BLOCK_ATTACK;
-        }
-        else if (escapedFight(other)) {
+        } else if (escapedFight(other)) {
             return COLLISION_STATUS::ESCAPE;
-        }
-        else {
+        } else {
             other.Die();
             return COLLISION_STATUS::KILL;
         }
     } else if (this->getStrength() < other.getStrength()) {
-        this->Die();
-        return COLLISION_STATUS::DIE;
+        if (avoidedDeath(other)) {
+            RevertPos();
+            return COLLISION_STATUS::AVOID_DEATH;
+        } else {
+            if (other.getType() == BELLADONNA || other.getType() == H_SOSNOWSKYI) {
+                this->Die();
+                other.Die();
+                return COLLISION_STATUS::DIE_EATING;
+            } else {
+                this->Die();
+                return COLLISION_STATUS::DIE;
+            }
+        }
     }
 
     RevertPos();
@@ -47,9 +62,21 @@ bool Animal::isAttackBlocked(Organism &other) {
 
 bool Animal::escapedFight(Organism &other) {
     // `this` is an attacker
-    if (this->getStrength() >= other.getStrength()) {
-        if (other.getType() == ANTILOPE)
-            return (bool) rand() % 2;
+    if (other.getType() == HUMAN) {
+        auto h = dynamic_cast<Human *>(&other);
+        if (h->isPowerful())
+            return true;
+    }
+    if (other.getType() == ANTILOPE)
+        return (bool) rand() % 2;
+    return false;
+}
+
+bool Animal::avoidedDeath(Organism &other) {
+    if (this->getType() == HUMAN) {
+        auto h = dynamic_cast<Human *>(this);
+        if (h->isPowerful())
+            return true;
     }
     return false;
 }

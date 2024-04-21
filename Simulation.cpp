@@ -47,16 +47,12 @@ void Simulation::UpdateInput() {
         W->setHumanAction(NO_ACTION);
         if (ch == KEY_LEFT)
             W->setHumanAction(GO_LEFT);
-
         else if (ch == KEY_RIGHT)
             W->setHumanAction(GO_RIGHT);
-
-        if (ch == KEY_UP)
+        else if (ch == KEY_UP)
             W->setHumanAction(GO_UP);
-
         else if (ch == KEY_DOWN)
             W->setHumanAction(GO_DOWN);
-
         else if (ch == '1')
             W->setHumanAction(POWER);
     }
@@ -76,9 +72,10 @@ void Simulation::RenderSim() {
     // Draw worlds
     R->DrawWorld(W);
 
-    if (W->isPaused())
-        R->Draw("It's player's turn now!", {80, 1}, A_REVERSE, WIN::I);
+
     // Info string
+    R->ShowPlayerInformation(W);
+
     R->Draw("Turns passed: " + std::to_string(W->getTurnsNum()), {1, 1}, WIN::I);
     R->Draw("Organisms alive: " + std::to_string(W->getOrganismsNum()), {1, 2}, WIN::I);
 

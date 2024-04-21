@@ -29,7 +29,7 @@ void Renderer::Draw(const std::string &t, const Point &pos, chtype a, WIN w) {
 }
 
 void Renderer::newWins() {
-    float ratio = 0.3;
+    float ratio = 0.45;
     Rect s = {0, 0, (int) (COLS * (1 - ratio)),
               LINES - 7}; // TODO: Has to be resizable
     Rect i = {s.x, (s.y + s.h), (int) (COLS * (1 - ratio)),
@@ -85,21 +85,30 @@ void Renderer::EmptyWin(WIN w) {
 }
 
 void Renderer::DrawWorld(World *W) {
-    for (auto o: W->organisms) {
-        if (o->isDead())
+    for (auto p: W->organisms) {
+        if (p->getInitiative() != 0)
             continue;
-        if (o->getType() == HUMAN)
-            if (W->isPaused())
-                Draw("H", o->getPos(), A_BOLD | A_BLINK | A_UNDERLINE);
-            else
-                Draw("H", o->getPos());
-
-        else
-            Draw(o->className().substr(0, 1), o->getPos(),
-                 COLOR_PAIR(o->getType()));
-        //            Draw(to_string(o->getId()), o->getPos(),
-        //            COLOR_PAIR(o->getType())); // For tests
+        Draw(p->className().substr(0, 1), p->getPos(),
+             COLOR_PAIR(p->getType()));
     }
+
+    for (auto a: W->organisms) {
+        if (a->getInitiative() == 0)
+            continue;
+        if (a->isDead())
+            continue;
+        if (a->getType() == HUMAN)
+            if (W->isPaused())
+                Draw("H", a->getPos(), A_BOLD | A_BLINK | A_UNDERLINE);
+            else
+                Draw("H", a->getPos());
+
+        else {
+            Draw(a->className().substr(0, 1), a->getPos(),
+                 COLOR_PAIR(a->getType()));
+        }
+    }
+
 }
 
 void Renderer::ShowListenersOutput(World *W) {
@@ -118,6 +127,21 @@ void Renderer::ShowListenersOutput(World *W) {
                 ly = 1;
             }
             Draw(W->WListener.events.front().details, {lx, ly++}, WIN::L);
+        }
+    }
+}
+
+void Renderer::ShowPlayerInformation(World *W) {
+    if (W->isPaused()) {
+        Draw("It's player's turn now!", {80, 1}, A_REVERSE, WIN::I);
+
+        if (W->getHumanPowerTurns() != 0) {
+            Draw("Power is active for " + std::to_string(W->getHumanPowerTurns()) + " turns", {80, 2}, WIN::I);
+        } else {
+            if (W->getHumanPowerCD() != 0) {
+                Draw("Power is on cooldown for " + std::to_string(W->getHumanPowerCD()) + " turns", {80, 2}, WIN::I);
+            } else
+                Draw("Power is ready to use", {80, 2}, A_BOLD, WIN::I);
         }
     }
 }

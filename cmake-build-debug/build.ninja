@@ -140,6 +140,55 @@ build CMakeFiles/pr1.dir/animals/Human.cpp.o: CXX_COMPILER__pr1_unscanned_Debug 
   OBJECT_DIR = CMakeFiles/pr1.dir
   OBJECT_FILE_DIR = CMakeFiles/pr1.dir/animals
 
+build CMakeFiles/pr1.dir/plants/Grass.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/plants/Grass.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/plants/Grass.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir/plants
+
+build CMakeFiles/pr1.dir/Plant.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/Plant.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/Plant.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir
+
+build CMakeFiles/pr1.dir/plants/Guarana.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/plants/Guarana.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/plants/Guarana.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir/plants
+
+build CMakeFiles/pr1.dir/PlantChunk.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/PlantChunk.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/PlantChunk.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir
+
+build CMakeFiles/pr1.dir/plants/Sonchus.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/plants/Sonchus.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/plants/Sonchus.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir/plants
+
+build CMakeFiles/pr1.dir/plants/Belladonna.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/plants/Belladonna.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/plants/Belladonna.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir/plants
+
+build CMakeFiles/pr1.dir/plants/H_Sosnowskyi.cpp.o: CXX_COMPILER__pr1_unscanned_Debug /home/dixie/uni/sem2/po/pr1/plants/H_Sosnowskyi.cpp || cmake_object_order_depends_target_pr1
+  DEP_FILE = CMakeFiles/pr1.dir/plants/H_Sosnowskyi.cpp.o.d
+  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
+  INCLUDES = -I/home/dixie/uni/sem2/po/pr1/.
+  OBJECT_DIR = CMakeFiles/pr1.dir
+  OBJECT_FILE_DIR = CMakeFiles/pr1.dir/plants
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target pr1
@@ -148,7 +197,7 @@ build CMakeFiles/pr1.dir/animals/Human.cpp.o: CXX_COMPILER__pr1_unscanned_Debug 
 #############################################
 # Link the executable pr1
 
-build pr1: CXX_EXECUTABLE_LINKER__pr1_Debug CMakeFiles/pr1.dir/Simulation.cpp.o CMakeFiles/pr1.dir/Renderer.cpp.o CMakeFiles/pr1.dir/main.cpp.o CMakeFiles/pr1.dir/Organism.cpp.o CMakeFiles/pr1.dir/Animal.cpp.o CMakeFiles/pr1.dir/World.cpp.o CMakeFiles/pr1.dir/WorldListener.cpp.o CMakeFiles/pr1.dir/animals/Wolf.cpp.o CMakeFiles/pr1.dir/animals/Sheep.cpp.o CMakeFiles/pr1.dir/animals/Fox.cpp.o CMakeFiles/pr1.dir/animals/Turtle.cpp.o CMakeFiles/pr1.dir/animals/Antilope.cpp.o CMakeFiles/pr1.dir/animals/Human.cpp.o
+build pr1: CXX_EXECUTABLE_LINKER__pr1_Debug CMakeFiles/pr1.dir/Simulation.cpp.o CMakeFiles/pr1.dir/Renderer.cpp.o CMakeFiles/pr1.dir/main.cpp.o CMakeFiles/pr1.dir/Organism.cpp.o CMakeFiles/pr1.dir/Animal.cpp.o CMakeFiles/pr1.dir/World.cpp.o CMakeFiles/pr1.dir/WorldListener.cpp.o CMakeFiles/pr1.dir/animals/Wolf.cpp.o CMakeFiles/pr1.dir/animals/Sheep.cpp.o CMakeFiles/pr1.dir/animals/Fox.cpp.o CMakeFiles/pr1.dir/animals/Turtle.cpp.o CMakeFiles/pr1.dir/animals/Antilope.cpp.o CMakeFiles/pr1.dir/animals/Human.cpp.o CMakeFiles/pr1.dir/plants/Grass.cpp.o CMakeFiles/pr1.dir/Plant.cpp.o CMakeFiles/pr1.dir/plants/Guarana.cpp.o CMakeFiles/pr1.dir/PlantChunk.cpp.o CMakeFiles/pr1.dir/plants/Sonchus.cpp.o CMakeFiles/pr1.dir/plants/Belladonna.cpp.o CMakeFiles/pr1.dir/plants/H_Sosnowskyi.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/pr1.dir
   POST_BUILD = :

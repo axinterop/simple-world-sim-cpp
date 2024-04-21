@@ -18,6 +18,12 @@ void WorldListener::RecordCollision(COLLISION_STATUS c_s, Organism &this_o, Orga
         e.details = other_o.classInfo() + " blocked attack from " + this_o.classInfo();
     } else if (c_s == ESCAPE) {
         e.details = other_o.classInfo() + " escaped from " + this_o.classInfo();
+    } else if (c_s == AVOID_DEATH) {
+        e.details = this_o.classInfo() + " avoided death from " + other_o.classInfo();
+    } else if (c_s == BOOST_POWER) {
+        e.details = this_o.classInfo() + " has eaten " + other_o.className() + " became stronger";
+    } else if (c_s == DIE_EATING) {
+        e.details = this_o.classInfo() + " has eaten " + other_o.className() + " and died";
     } else if (c_s == UNDEFINED) {
         e.details = "Undefined collision between " + this_o.classInfo() + " and " + other_o.classInfo();
     }

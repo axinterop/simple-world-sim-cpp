@@ -31,4 +31,17 @@ add_executable(pr1
         animals/Antilope.h
         animals/Antilope.cpp
         animals/Human.h
-        animals/Human.cpp)
+        animals/Human.cpp
+        plants/Grass.h
+        plants/Grass.cpp
+        Plant.cpp
+        plants/Guarana.h
+        plants/Guarana.cpp
+        PlantChunk.h
+        PlantChunk.cpp
+        plants/Sonchus.h
+        plants/Sonchus.cpp
+        plants/Belladonna.h
+        plants/Belladonna.cpp
+        plants/H_Sosnowskyi.h
+        plants/H_Sosnowskyi.cpp)
