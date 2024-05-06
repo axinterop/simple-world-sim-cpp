@@ -7,7 +7,7 @@
 
 class Simulation {
 public:
-    Simulation();
+    Simulation(int w, int h);
     ~Simulation();
     void RunSimulation();
     Renderer *R;

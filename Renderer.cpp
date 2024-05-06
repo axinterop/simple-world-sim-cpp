@@ -1,8 +1,8 @@
 #include "Renderer.h"
 
-Renderer::Renderer() {
+Renderer::Renderer(Rect sim_area) {
     InitializeRenderer();
-    newWins();
+    newWins(sim_area);
 }
 
 Renderer::~Renderer() {
@@ -28,13 +28,19 @@ void Renderer::Draw(const std::string &t, const Point &pos, chtype a, WIN w) {
     wattroff(WINS[w], a);
 }
 
-void Renderer::newWins() {
-    float ratio = 0.45;
-    Rect s = {0, 0, (int) (COLS * (1 - ratio)),
-              LINES - 7}; // TODO: Has to be resizable
-    Rect i = {s.x, (s.y + s.h), (int) (COLS * (1 - ratio)),
+void Renderer::newWins(Rect sim_area) {
+    int max_w = (int) COLS - 60;
+    int max_h = (int) LINES - 8;
+    sim_area.w = std::max(sim_area.w, 50);
+    sim_area.h = std::max(sim_area.h, 5);
+
+    sim_area.w = std::min(sim_area.w, max_w);
+    sim_area.h = std::min(sim_area.h, max_h);
+
+    Rect s =  sim_area;
+    Rect i = {s.x, (s.y + s.h), s.w,
               LINES - s.h}; // TODO: Depends on sim win
-    Rect l = {(s.x + s.w), s.y, (int) (COLS * ratio),
+    Rect l = {(s.x + s.w), s.y, COLS - s.w,
               LINES}; // TODO: Depends on sim win
     Rect r[] = {s, i, l};
 
@@ -133,15 +139,16 @@ void Renderer::ShowListenersOutput(World *W) {
 
 void Renderer::ShowPlayerInformation(World *W) {
     if (W->isPaused()) {
-        Draw("It's player's turn now!", {80, 1}, A_REVERSE, WIN::I);
+        int px = getmaxx(WINS[I]) - 25;
+        Draw("Player's turn now!", {px, 1}, A_REVERSE, WIN::I);
 
         if (W->getHumanPowerTurns() != 0) {
-            Draw("Power is active for " + std::to_string(W->getHumanPowerTurns()) + " turns", {80, 2}, WIN::I);
+            Draw("Power is active for " + std::to_string(W->getHumanPowerTurns()) + " turns", {px, 2}, WIN::I);
         } else {
             if (W->getHumanPowerCD() != 0) {
-                Draw("Power is on cooldown for " + std::to_string(W->getHumanPowerCD()) + " turns", {80, 2}, WIN::I);
+                Draw("Power is on cooldown for " + std::to_string(W->getHumanPowerCD()) + " turns", {px, 2}, WIN::I);
             } else
-                Draw("Power is ready to use", {80, 2}, A_BOLD, WIN::I);
+                Draw("Power is ready to use", {px, 2}, A_BOLD, WIN::I);
         }
     }
 }

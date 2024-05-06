@@ -20,7 +20,7 @@ COLLISION_STATUS Animal::Collision(Organism &other) {
         if (other.getType() == GUARANA) {
             strength += 3;
             other.Die();
-            return COLLISION_STATUS::BOOST_POWER;
+            return COLLISION_STATUS::BOOST_EATING;
         } else if (isAttackBlocked(other)) {
             RevertPos();
             return COLLISION_STATUS::BLOCK_ATTACK;

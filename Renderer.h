@@ -23,7 +23,7 @@ class Renderer {
 private:
     WINDOW *WINS[3];
     const int w_n = 3;
-    void newWins();
+    void newWins(Rect sim_area);
     void newWin(WIN w, Rect &r);
     void delWins();
     void delWin(WIN w);
@@ -31,7 +31,7 @@ private:
     int lx = 1; // Log's x
     int ly = 1; // Log's y
 public:
-    Renderer();
+    Renderer(Rect sim_area);
     ~Renderer();
 
     void Draw(const std::string& t, const Point &pos);

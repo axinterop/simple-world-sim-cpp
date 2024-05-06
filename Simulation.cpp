@@ -1,8 +1,9 @@
 #include "Simulation.h"
 #include <ncurses.h>
 
-Simulation::Simulation() {
-    R = new Renderer();
+Simulation::Simulation(int w, int h) {
+    Rect sim_area = {0, 0, w, h};
+    R = new Renderer(sim_area);
     const WINDOW *t = R->getWin(WIN::S);
     Rect w_area;
     w_area.x = getbegx(t) + 1;
@@ -79,8 +80,9 @@ void Simulation::RenderSim() {
     R->Draw("Turns passed: " + std::to_string(W->getTurnsNum()), {1, 1}, WIN::I);
     R->Draw("Organisms alive: " + std::to_string(W->getOrganismsNum()), {1, 2}, WIN::I);
 
-    R->Draw("Any key for Next Turn", {1, 4}, WIN::I);
-    R->Draw("'E' to Exit", {1, 5}, WIN::I);
+    R->Draw("Any key for Next Turn", {1, 5}, WIN::I);
+    R->Draw("'E' to Exit", {1, 6}, WIN::I);
+
 
     // Log string
     R->ShowListenersOutput(W);
