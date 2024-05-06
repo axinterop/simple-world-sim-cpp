@@ -1,4 +1,4 @@
-# Simple world simulation
+# Simple world simulation in C++
 The project was done as a part of my university study. It implements a virtual world simulator, which has simple life forms with different behavior. The user can participate in world simulation, being a "Human" organism. The aim of project was to exercise OOP in C++. It was meant to be run in console, so the visuals were made with *ncurses*.
 
 # Features
@@ -9,14 +9,14 @@ The project was done as a part of my university study. It implements a virtual w
 - Different plant species and their propagation.
 - User-controlled Human moved by arrows and Human's special skill.
 
-# Showcase
+# Screenshot
 ![simulation](showcase.png)
 
 # Description of classes
 **Note!**
 
 
-Default collision() for every organism is killing or dying, depends on strength and initiative.
+Default collision() for every organism is killing or dying, depends on strength and initiative (except Grass and Sonchus).
 
 If there is empty cell in table, default behaviour is used.
 
@@ -36,8 +36,11 @@ Default action() for every animal is moving randomly in any direction.
 | Antilope | 4 | 4 | The range of movement is 2 fields. | 50% chance of escaping before the fight. Then adjacent field. |
 
 ## Plants
+
 Default action() for every plant is an attempt to spread.
+
 All plants have initiative 0.
+
 Cyber-sheep is implemented in other project.
 | Plant | Strength | action() | collision() |
 | :--------: | :--------: | :--------: | :--------: |
