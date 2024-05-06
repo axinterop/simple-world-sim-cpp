@@ -9,6 +9,9 @@ The project was done as a part of my university study. It implements a virtual w
 - Different plant species and their propagation.
 - User-controlled Human moved by arrows and Human's special skill.
 
+# Showcase
+![simulation](showcase.png)
+
 # Description of classes
 **Note!**
 
