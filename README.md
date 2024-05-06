@@ -1,5 +1,5 @@
 # Simple world simulation
-The project was done as a part of my university study. It implements a virtual world simulator, which has simple life forms with different behavior. The user can participate in world simulation, being a "Human" organism. The aim of project was to exercise OOP in C++. Its meant to be run in console, so the visuals were made with *ncurses*.
+The project was done as a part of my university study. It implements a virtual world simulator, which has simple life forms with different behavior. The user can participate in world simulation, being a "Human" organism. The aim of project was to exercise OOP in C++. It was meant to be run in console, so the visuals were made with *ncurses*.
 
 # Features
 - Colorful world rendering (Renderer) and windows supported by *ncurses*.
