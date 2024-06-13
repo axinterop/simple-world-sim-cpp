@@ -1,6 +1,9 @@
 # Simple world simulation in C++
 The project implements a virtual world simulator, which has simple life forms with different behavior. The user can participate in world simulation, being a "Human" organism. The aim of project was to exercise OOP in C++. It was meant to be run in console, so the visuals were made with *ncurses*.
 
+- [Implementation in Java](https://github.com/axinterop/simple-world-sim-java)
+- [Implementation in Python](https://github.com/axinterop/simple-world-sim-py) 
+
 # Features
 - Colorful world rendering (Renderer) and windows supported by *ncurses*.
 - Log window to show events captured by EventListener.
