@@ -32,6 +32,8 @@ The project implements a virtual world simulator, which has simple life forms wi
 ## Animals
 Default action() for every animal is moving randomly in any direction.
 
+Cybersheep is not implemented in this project, but I have included it for completeness.
+
 
   
 | Animal | Strength | Initiative | action() | collision() |
@@ -41,14 +43,13 @@ Default action() for every animal is moving randomly in any direction.
 | Fox | 3 | 7 | Good sense of smell: a fox will never move into a field occupied by an organism stronger than it. | - |
 | Turtle | 2 | 1 | In 75% of cases, it does not changes its position. | Repels animal attacks with a strength of less than 5. The attacker must return to his previous field. |
 | Antilope | 4 | 4 | The range of movement is 2 fields. | 50% chance of escaping before the fight. Then adjacent field. |
-
+| Cybersheep | 11 | 4 | Her ultimate goal is to exterminate the Heracleum sosnowskyi. She always heads towards the nearest hogweed and tries to eat it. If there is no hogweed on the board then she pretends to be an ordinary sheep | Eats hogweed. | 
 
 
 ## Plants
 
 - Default action() for every plant is an attempt to spread.
 - All plants have initiative 0.
-- Cyber-sheep is not implemented in this project, but I have included it for completeness.
 
 
 
